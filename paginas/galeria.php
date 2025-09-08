@@ -1,0 +1,27 @@
+<?php
+include 'array.php'
+?>
+<section class="btn">
+    <a href="home#contatos">
+        <i id="btnInstagram" title="Atalho Contato" data-aos="zoom-in-left"
+            class="fa-brands fa-square-instagram btnContato" style="color: #283c28;"></i>
+    </a>
+    <a href="galeria#topo">
+        <i title="Atalho Home" data-aos="zoom-in-left" class="fa-solid fa-house btnUp" style="color: #606C38;"></i>
+    </a>
+</section>
+<div class="galeria">
+
+    <?php foreach ($fotos as $foto): ?>
+
+        <div class="card" style="width: 18rem;">
+            <img src="<?= $foto['imagem'] ?>" class="card-img-top" alt="Coleção de imagens dos produtos">
+            <div class="card-body">
+                <p class="card-text"><?= $foto['modelo'] ?>.</p>
+            </div>
+        </div>
+        
+    <?php
+    endforeach;
+    ?>
+</div>

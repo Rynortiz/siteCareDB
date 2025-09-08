@@ -1,0 +1,385 @@
+<body class="container">
+    <!--Logo da header e flechinha animada -->
+    <div class="container-banner">
+        <section>
+            <img data-aos="zoom-in" class="logoCare" src="images/careLogo.png" alt="Logo Care">
+        </section>
+    </div>
+    <div class="container-arrow" id="containerArrow">
+        <section class="arrow" id="arrow">
+            <i class="fa-solid fa-angle-down" style="color: #606C38;"></i>
+        </section>
+    </div>
+    <!--botões laterais -->
+    <section class="btn">
+        <a href="home#contatos">
+            <i id="btnInstagram" title="Atalho Contato" data-aos="zoom-in-left"
+                class="fa-brands fa-square-instagram btnContato" style="color: #283c28;"></i>
+        </a>
+        <a href="home#topo">
+            <i title="Atalho Home" data-aos="zoom-in-left" class="fa-solid fa-house btnUp" style="color: #606C38;"></i>
+        </a>
+    </section>
+
+    <!--textos e imagens -->
+
+
+    <section class="sobre" id="sobre">
+
+        <div class="separador" data-aos="fade" data-aos-duration="1500">
+            <div class="linha"></div>
+            <div class="icone-vela">🕯️</div>
+            <div class="linha"></div>
+        </div>
+
+        <img class="imagem" src="images/imagem1.jpeg" data-aos="fade-right">
+
+        <section class="subtitulo">
+            🕯️ Sobre
+        </section>
+
+        <section class="texto">
+            Vela 100% artesanal.<br> Com cera de coco (livre de parafina) - biodegradável e
+            derivado de uma fonte renovável;<br> Queima limpa/sem poluentes;<br> Maior fixação da fragrância; Queima
+            mais lenta e com pavio de algodão ou bambú!
+        </section>
+
+
+        <img class="imagem" src="images/imagem5.jpg" data-aos="fade-right" id="produto">
+
+        <div class="separador">
+            <div class="linha"></div>
+            <div class="icone-vela">🕯️</div>
+            <div class="linha"></div>
+        </div>
+
+    </section>
+
+
+    <section class="produtos">
+        <section class="subtitulo">
+            🕯️ Produtos
+        </section>
+
+        <section class="texto">
+            A Care possui mais de 30 velas e aromas diferentes, inclusive para datas comemorativas, segue abaixo alguns
+            exemplos:
+        </section>
+
+        <!-- carrossel das padrões-->
+
+        <p class="subsubtitulo" data-aos="zoom-in-up" data-aos-anchor-placement="top-bottom">
+            Velas comuns
+        </p>
+
+        <div id="carouselPadrao" class="carousel slide" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselPadrao" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselPadrao" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselPadrao" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselPadrao" data-bs-slide-to="3"
+                    aria-label="Slide 4"></button>
+                <button type="button" data-bs-target="#carouselPadrao" data-bs-slide-to="4"
+                    aria-label="Slide 5"></button>
+                <button type="button" data-bs-target="#carouselPadrao" data-bs-slide-to="5"
+                    aria-label="Slide 6"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="images/careVela4.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+                </div>
+                <div class="carousel-item">
+                    <img src="images/careVela2.jpeg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="images/careVela8.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+                </div>
+                <div class="carousel-item">
+                    <img src="images/careVela9.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="images/careVela7.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="images/careVela10.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselPadrao" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselPadrao" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <div class="separador">
+            <div class="linha"></div>
+            <div class="icone-vela">🕯️</div>
+            <div class="linha"></div>
+        </div>
+
+        <!-- carrossel de velas sazonais-->
+
+        <p class="subsubtitulo" data-aos="zoom-in-up" data-aos-anchor-placement="top-bottom">
+            Velas sazonais
+        </p>
+
+        <div id="carouselSazonais" class="carousel slide" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselSazonais" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselSazonais" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselSazonais" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselSazonais" data-bs-slide-to="3"
+                    aria-label="Slide 4"></button>
+                <button type="button" data-bs-target="#carouselSazonais" data-bs-slide-to="4"
+                    aria-label="Slide 5"></button>
+                <button type="button" data-bs-target="#carouselSazonais" data-bs-slide-to="5"
+                    aria-label="Slide 6"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="images/dataCom1.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="images/dataCom2.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="images/dataCom4.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="images/dataCom8.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="images/dataCom9.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="images/dataCom7.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselSazonais" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselSazonais" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <div class="separador">
+            <div class="linha"></div>
+            <div class="icone-vela">🕯️</div>
+            <div class="linha"></div>
+        </div>
+
+        <!-- carrossel dos kits -->
+
+        <p class="subsubtitulo" data-aos="zoom-in-up" data-aos-anchor-placement="top-bottom">
+            Kits com vela
+        </p>
+
+
+        <div id="carouselKits" class="carousel slide" data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselKits" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselKits" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselKits" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselKits" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                <button type="button" data-bs-target="#carouselKits" data-bs-slide-to="4" aria-label="Slide 5"></button>
+                <button type="button" data-bs-target="#carouselKits" data-bs-slide-to="5" aria-label="Slide 6"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="images/kit1.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="images/kit3.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="images/kit5.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="images/kit7.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="images/kit5.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="images/kit9.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselKits" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselKits" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <div class="separador">
+            <div class="linha"></div>
+            <div class="icone-vela">🕯️</div>
+            <div class="linha"></div>
+        </div>
+
+        <!-- Carrossel das lembrancinhas-->
+
+        <p class="subsubtitulo" data-aos="zoom-in-up" data-aos-anchor-placement="top-bottom">
+            Lembrancinhas para eventos
+        </p>
+
+        <div id="carouselLembrancinhas" class="carousel slide" data-aos="fade-up"
+            data-aos-anchor-placement="top-bottom">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselLembrancinhas" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselLembrancinhas" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselLembrancinhas" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselLembrancinhas" data-bs-slide-to="3"
+                    aria-label="Slide 4"></button>
+                <button type="button" data-bs-target="#carouselLembrancinhas" data-bs-slide-to="4"
+                    aria-label="Slide 5"></button>
+                <button type="button" data-bs-target="#carouselLembrancinhas" data-bs-slide-to="5"
+                    aria-label="Slide 6"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="images/lembr1.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="images/lembr2.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="images/lembr3.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="images/lembr4.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="images/lembr6.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="images/lembr7.jpg" class="d-block w-100" alt="Imagem de um dos produtos">
+
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselLembrancinhas"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button id="contatos" class="carousel-control-next" type="button" data-bs-target="#carouselLembrancinhas"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+    </section>
+
+    <div class="separador">
+        <div class="linhaAlt"></div>
+        <div class="icone-vela">🕯️</div>
+        <div class="linhaAlt"></div>
+    </div>
+
+    <section class="contato" id="contato">
+
+        <section class="subtitulo">
+            Entre em contato
+        </section>
+
+        <p class="subsubtitulo">
+            Peça já a sua:
+        </p>
+
+        <div class="containerContato">
+            <div class="containerMiniImagemEsq">
+
+                <img src="images/imagem7.jpg">
+                <a href="https://api.whatsapp.com/send?phone=44991024019" data-aos="fade-right" target="_blank"
+                    alt="Whats Renata Whatsapp">
+                    Whatsapp Renata
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+
+            </div>
+            <div class="containerMiniImagemDir">
+                <img src="images/imagem3.jpg">
+                <a href="https://api.whatsapp.com/send/?phone=5544998808476" data-aos="fade-right" target="_blank"
+                    alt="Contato Cassi Whatsapp">
+                    Whatsapp Cassi
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+            </div>
+            <div class="containerMiniImagemEsq">
+                <img src="images/imagem4.jpg">
+                <a href="https://www.instagram.com/velas.care" data-aos="fade-right" target="_blank" class="instaCare"
+                    alt="Contato Instagram Care">
+                    Instagram Care
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="mensagemFinal">
+            <div class="card-body">
+                <h5 class="card-title">Newsletter</h5>
+                <p class="card-text">Caso esteja interessado nos produtos e quiser receber promoções, novidades e quem sabe até prêmios, assine nosso newsletter aqui:
+                <a href="formulario" class="btn btn-primary">Formulário
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
+        </div>
+
+        <div class="mensagemFinal">
+            <img src="images/velascareLINK.jpg" class="card-img-top" alt="Card sobre o linktr.ee da Care">
+            <div class="card-body">
+                <h5 class="card-title">Care no Linktr.ee</h5>
+                <p class="card-text">Este site possui o intuito de apresentar a marca e seus produtos, <br>
+                    Para mais fotos e informações sobre valores e modelos, entre em contato nos links acima ou acesse o link
+                    abaixo:</p>
+                <a href="https://linktr.ee/velascare" target="_blank" class="btn btn-primary">Linktr.ee/velascare
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
+        </div>
+
+
+
+    </section>
+
+</body>

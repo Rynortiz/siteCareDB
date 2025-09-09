@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\Id;
 
 #[Entity]
 
-class Produto
+class Product
 {
     #[Column, Id, GeneratedValue]
     private int $id;
@@ -51,7 +51,7 @@ class Produto
     public static function findAll(): array
     {
         $em = Database::getEntityManager();
-        $repository = $em->getRepository(Produto::class);
+        $repository = $em->getRepository(Product::class);
         return $repository->findAll();
     }
 }

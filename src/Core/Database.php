@@ -19,7 +19,7 @@ class Database
     {
         if (!isset(self::$entityManager)) {
             self::$entityManager = new EntityManager(
-                self::getConnection(), 
+                self::getConnection(),
                 self::getConfig()
             );
         }
@@ -30,17 +30,22 @@ class Database
     private static function getConfig(): Configuration
     {
         $paths = [__DIR__ . '/../Model'];
-        $isDevMode = false;
+        $isDevMode = true;
+        $proxyDir = __DIR__ . '/../Proxies';
 
         return ORMSetup::createAttributeMetadataConfiguration(
-            $paths, 
-            $isDevMode
+            $paths,
+            $isDevMode,
+            $proxyDir,   // <<-- aqui!
+            null,
+            false
         );
+        
     }
 
     private static function getConnection(): Connection
     {
-        
+
         $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
         $dotenv->load();
         $dbParams = [
@@ -50,11 +55,11 @@ class Database
             'dbname'   => $_ENV['DB_DBNAME'],
             'host'     => $_ENV['DB_HOST']
         ];
-        
+
         $config = self::getConfig();
 
         return DriverManager::getConnection(
-            $dbParams, 
+            $dbParams,
             $config
         );
     }

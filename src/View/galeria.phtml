@@ -1,0 +1,33 @@
+<body class="container">
+
+    <h1 class="text-center mt-4">Velas Disponíveis</h1>
+
+    <div class="galeria">
+        <?php foreach ($velas as $vela): ?>
+            <div class="card" style="width: 18rem;">
+                <img src="<?= $vela->getImagem() ?>" class="card-img-top" alt="Imagem da vela <?= $vela->getNome() ?>">
+                <div class="card-body">
+                    <h5 class="card-title"><?= $vela->getNome() ?></h5>
+                    <p class="card-text">
+                        Aroma: <?= $vela->getAroma() ?><br>
+                        Valor: R$ <?= number_format($vela->getPreco(), 2, ',', '.') ?>
+                    </p>
+
+                    <form action="/favorito/toggle" method="POST">
+                        <input type="hidden" name="id_vela" value="<?= $vela->getId() ?>">
+                        <?php if (in_array($vela->getId(), $favoritos)): ?>
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                <i class="fa-solid fa-heart"></i> Remover dos favoritos
+                            </button>
+                        <?php else: ?>
+                            <button type="submit" class="btn btn-success btn-sm" title="Adicionar aos favoritos">
+                                <i class="fa-regular fa-heart"></i> Adicionar aos favoritos
+                            </button>
+                        <?php endif; ?>
+                    </form>
+
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</body>

@@ -5,6 +5,7 @@ class NotFoundController
 {
     function render() : void 
     {
-        echo "404";   
+        $page = 'erro';
+        include __DIR__ . '/../View/page.phtml';   
     }
 }

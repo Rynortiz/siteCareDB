@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Controller;
+
+use App\Core\Database;
+use App\Model\Favorito;
+use App\Model\Vela;
+use App\Model\Usuario;
+
+class FavoritoController
+{
+    public function toggle()
+    {
+        session_start();
+        $idUsuario = $_SESSION['id_usuario'];
+        $idVela = $_POST['id_vela'];
+
+        $em = Database::getEntityManager();
+        $usuario = $em->find(Usuario::class, $idUsuario);
+        $vela = $em->find(Vela::class, $idVela);
+
+        $favoritoRepo = $em->getRepository(Favorito::class);
+        $favoritoExistente = $favoritoRepo->findOneBy(['usuario' => $usuario, 'vela' => $vela]);
+
+        if ($favoritoExistente) {
+            $em->remove($favoritoExistente); // remover
+        } else {
+            $favorito = new Favorito($usuario, $vela);
+            $em->persist($favorito); // adicionar
+        }
+
+        $em->flush();
+        header("Location: " . $_SERVER['HTTP_REFERER']); // volta para a página anterior
+        exit;
+    }
+
+    public function listar()
+    {
+        session_start();
+        $idUsuario = $_SESSION['id_usuario'];
+
+        $em = Database::getEntityManager();
+
+        // Buscar favoritos do usuário
+        $favoritoRepo = $em->getRepository(Favorito::class);
+        $usuario = $em->find(Usuario::class, $idUsuario);
+        $favoritosUsuario = $favoritoRepo->findBy(['usuario' => $usuario]);
+
+        $velasFavoritas = [];
+        foreach ($favoritosUsuario as $fav) {
+            $velasFavoritas[] = $fav->getVela();
+        }
+        // Define qual página será injetada em page.phtml
+        $page = 'favorito';
+
+        // Inclui o layout principal que carrega a view certa
+        require __DIR__ . '/../View/page.phtml';
+    }
+}

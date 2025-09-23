@@ -1,5 +1,25 @@
+<?php
+session_start();
+$usuarioLogado = $_SESSION['nome_usuario'] ?? null;
+?>
 <header>
+    
+    <div class="subtitulo">
 
+        <?php if ($usuarioLogado): ?>
+            <li>
+                <span class="navbar-text">
+                    👤 Olá, <strong><?= htmlspecialchars($usuarioLogado) ?></strong>
+                </span>
+            </li>
+        <?php else: ?>
+            <li>
+                <span class="navbar-text">
+                    👤 Faça seu <strong>Login</strong>
+                </span>
+            </li>
+        <?php endif; ?>
+    </div>
     <!--Menu hamburguer com dropdown -->
     <div class="menu-ham" id="topo">
         <a class="hamburger" onclick="ativarMenu()">
@@ -8,8 +28,14 @@
         <div class="dropdown" id="dropdownMenu">
             <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="home">Home</a>
             <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="galeria">Galeria</a>
+            <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="favorito">Meus favoritos</a>
             <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="home#sobre">Sobre</a>
             <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="home#produto">Produtos</a>
+            <?php if ($usuarioLogado): ?>
+                <a onclick="ativarMenu(), trocarIcone()" class="dropContato" href="logout">Logout</a>
+            <?php else: ?>
+                <a onclick="ativarMenu(), trocarIcone()" class="dropContato" href="login">Login</a>
+            <?php endif; ?>
             <a onclick="ativarMenu(), trocarIcone()" class="dropContato" href="home#contatos">Contato</a>
         </div>
     </div>

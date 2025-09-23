@@ -22,6 +22,9 @@
     "scripts": {
         "create-db": "php bin/doctrine orm:schema-tool:create",
         "update-db": "php bin/doctrine orm:schema-tool:update --force",
-        "start": "php -S localhost:8000 -t public"
+        "start": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php -S localhost:8000 -t public"
+        ]
     }
 }

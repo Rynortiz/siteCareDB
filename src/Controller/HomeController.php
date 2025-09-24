@@ -1,10 +1,16 @@
 <?php
+
 namespace App\Controller;
 
 class HomeController
 {
     public function render(): void
     {
+        session_start();
+        
+        $nomeUsuario = $_SESSION['nome_usuario'];
+
+
         $page = 'home';
         include __DIR__ . '/../View/page.phtml';
     }
@@ -13,5 +19,4 @@ class HomeController
     {
         echo "Aqui vamos cadastrar no banco";
     }
-
 }

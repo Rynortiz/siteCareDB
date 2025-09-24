@@ -1,25 +1,18 @@
-<?php
-session_start();
-$usuarioLogado = $_SESSION['nome_usuario'] ?? null;
-?>
 <header>
-    
-    <div class="subtitulo">
+    <div class="mensagemLogin">
+        <?php
 
-        <?php if ($usuarioLogado): ?>
-            <li>
-                <span class="navbar-text">
-                    👤 Olá, <strong><?= htmlspecialchars($usuarioLogado) ?></strong>
-                </span>
-            </li>
+        if ($nomeUsuario): ?>
+            <span class="navbar-text">
+                👤 Olá, <strong><?= htmlspecialchars($nomeUsuario) ?></strong>
+            </span>
         <?php else: ?>
-            <li>
-                <span class="navbar-text">
-                    👤 Faça seu <strong>Login</strong>
-                </span>
-            </li>
+            <span class="navbar-text">
+                👤 Faça seu <strong>Login</strong>
+            </span>
         <?php endif; ?>
     </div>
+
     <!--Menu hamburguer com dropdown -->
     <div class="menu-ham" id="topo">
         <a class="hamburger" onclick="ativarMenu()">
@@ -27,11 +20,11 @@ $usuarioLogado = $_SESSION['nome_usuario'] ?? null;
         </a>
         <div class="dropdown" id="dropdownMenu">
             <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="home">Home</a>
-            <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="galeria">Galeria</a>
-            <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="favorito">Meus favoritos</a>
             <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="home#sobre">Sobre</a>
             <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="home#produto">Produtos</a>
-            <?php if ($usuarioLogado): ?>
+            <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="galeria">Galeria</a>
+            <?php if ($nomeUsuario): ?>
+                <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="favorito">Meus favoritos</a>
                 <a onclick="ativarMenu(), trocarIcone()" class="dropContato" href="logout">Logout</a>
             <?php else: ?>
                 <a onclick="ativarMenu(), trocarIcone()" class="dropContato" href="login">Login</a>

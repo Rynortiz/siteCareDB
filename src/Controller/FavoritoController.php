@@ -50,10 +50,8 @@ class FavoritoController
         foreach ($favoritosUsuario as $fav) {
             $velasFavoritas[] = $fav->getVela();
         }
-        // Define qual página será injetada em page.phtml
-        $page = 'favorito';
 
-        // Inclui o layout principal que carrega a view certa
+        $page = 'favorito';
         require __DIR__ . '/../View/page.phtml';
     }
 }

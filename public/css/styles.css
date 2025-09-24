@@ -92,6 +92,13 @@ body {
     position: relative;
 
 }
+.mensagemLogin {
+
+    display: flex;
+    justify-content: start;
+    position: relative;
+
+}
 
 .hamburger {
 

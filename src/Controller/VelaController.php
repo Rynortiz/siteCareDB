@@ -13,14 +13,13 @@ class VelaController
     public function listar()
     {
         session_start();
-        $idUsuario = $_SESSION['id_usuario'] ?? null;
+        $idUsuario = $_SESSION['id_usuario'];
+        $nomeUsuario = $_SESSION['nome_usuario'];
 
         $em = Database::getEntityManager();
 
-        // Buscar velas disponíveis
         $velas = $em->getRepository(Vela::class)->findBy(['status' => VelaStatus::DISPONIVEL]);
 
-        // Buscar favoritos do usuário
         $favoritos = [];
 
         if ($idUsuario) {
@@ -32,10 +31,7 @@ class VelaController
             }
         }
 
-        // Define qual página será injetada em page.phtml
         $page = 'galeria';
-
-        // Inclui o layout principal que carrega a view certa
         require __DIR__ . '/../View/page.phtml';
     }
 }

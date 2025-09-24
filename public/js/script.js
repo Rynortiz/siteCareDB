@@ -67,4 +67,14 @@ function scrollToSection(event, id) {
         behavior: 'smooth'
     });
 }
+//=============================================================
+function validarSenhas() {
+    const senha = document.getElementById("senha").value;
+    const confirmar = document.getElementById("confirmar_senha").value;
 
+    if (senha !== confirmar) {
+        alert("As senhas não coincidem!");
+        return false;
+    }
+    return true;
+}

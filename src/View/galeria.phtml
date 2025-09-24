@@ -13,18 +13,24 @@
                         Valor: R$ <?= number_format($vela->getPreco(), 2, ',', '.') ?>
                     </p>
 
-                    <form action="/favorito/toggle" method="POST">
-                        <input type="hidden" name="id_vela" value="<?= $vela->getId() ?>">
-                        <?php if (in_array($vela->getId(), $favoritos)): ?>
-                            <button type="submit" class="btn btn-outline-danger btn-sm">
-                                <i class="fa-solid fa-heart"></i> Remover dos favoritos
-                            </button>
-                        <?php else: ?>
-                            <button type="submit" class="btn btn-success btn-sm" title="Adicionar aos favoritos">
-                                <i class="fa-regular fa-heart"></i> Adicionar aos favoritos
-                            </button>
-                        <?php endif; ?>
-                    </form>
+                    <?php if (!empty($idUsuario)): ?>
+                        <form action="/favorito/toggle" method="POST">
+                            <input type="hidden" name="id_vela" value="<?= $vela->getId() ?>">
+                            <?php if (in_array($vela->getId(), $favoritos)): ?>
+                                <button type="submit" class="btn btn-outline-danger btn-sm">
+                                    <i class="fa-solid fa-heart"></i> Remover dos favoritos
+                                </button>
+                            <?php else: ?>
+                                <button type="submit" class="btn btn-success btn-sm" title="Adicionar aos favoritos">
+                                    <i class="fa-regular fa-heart"></i> Adicionar aos favoritos
+                                </button>
+                            <?php endif; ?>
+                        </form>
+                    <?php else: ?>
+                        <div class="alert alert-warning text-center p-2">
+                            Faça login para adicionar velas na sua lista de favoritos.
+                        </div>
+                    <?php endif; ?>
 
                 </div>
             </div>

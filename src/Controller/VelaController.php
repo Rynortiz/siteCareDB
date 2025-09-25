@@ -13,8 +13,8 @@ class VelaController
     public function listar()
     {
         session_start();
-        $idUsuario = $_SESSION['id_usuario'];
-        $nomeUsuario = $_SESSION['nome_usuario'];
+        $idUsuario = $_SESSION['id_usuario'] ?? null;
+        $nomeUsuario = $_SESSION['nome_usuario'] ?? 'Seja bem-vindo!';
 
         $em = Database::getEntityManager();
 

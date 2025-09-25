@@ -8,8 +8,7 @@ class HomeController
     {
         session_start();
         
-        $nomeUsuario = $_SESSION['nome_usuario'];
-
+        $nomeUsuario = $_SESSION['nome_usuario'] ?? 'Seja bem-vindo!';
 
         $page = 'home';
         include __DIR__ . '/../View/page.phtml';

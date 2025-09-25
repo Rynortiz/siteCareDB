@@ -7,8 +7,7 @@ use App\Controller\LoginController;
 use App\Controller\NotFoundController;
 use App\Controller\CadastroController;
 use App\Controller\VelaController;
-use App\Controller\EditarVelaController;
-use App\Model\Vela;
+use App\Controller\AdminVelaController;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -24,9 +23,10 @@ $routes = [
     '/cadastro/cadastrar' =>[new CadastroController, 'cadastrar'],
     '/favorito' =>[new FavoritoController, 'listar'],
     '/favorito/toggle' =>[new FavoritoController, 'toggle'],
-    '/admin' =>[new EditarVelaController, 'render'],
-    '/editarVelas' =>[new EditarVelaController, 'salvar'],
-    '/removerVelas' =>[new EditarVelaController, 'remover'],
+    '/admin' => [new AdminVelaController, 'listar'],
+    '/admin/criar' => [new AdminVelaController, 'criar'],
+    '/admin/editar' => [new AdminVelaController, 'editar'],
+    '/admin/remover' => [new AdminVelaController, 'remover'],
     //'/product' => [new ProductController, 'render'],
     //'/product/create' => [new ProductController, 'create']
 ];

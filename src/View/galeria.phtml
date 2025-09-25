@@ -1,13 +1,13 @@
 <body class="container">
 
-    <h1 class="text-center mt-4">Velas Disponíveis</h1>
+    <h1 class="subtitulo">Velas Disponíveis</h1>
 
     <div class="galeria">
         <?php foreach ($velas as $vela): ?>
             <div class="card" style="width: 18rem;">
                 <img src="<?= $vela->getImagem() ?>" class="card-img-top" alt="Imagem da vela <?= $vela->getNome() ?>">
                 <div class="card-body">
-                    <h5 class="card-title"><?= $vela->getNome() ?></h5>
+                    <h5 class="subsubtitulo"><?= $vela->getNome() ?></h5>
                     <p class="card-text">
                         Aroma: <?= $vela->getAroma() ?><br>
                         Valor: R$ <?= number_format($vela->getPreco(), 2, ',', '.') ?>

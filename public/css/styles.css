@@ -104,9 +104,11 @@ body {
 }
 .mensagemLogin {
 
+    margin-left: 5px;
     display: flex;
     justify-content: start;
-    position: relative;
+    position: absolute;
+    z-index: 2;
 
 }
 

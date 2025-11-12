@@ -1,7 +1,7 @@
 <body class="container py-4">
-  <h1 class="subtitulo">Minhas Velas Favoritas</h1>
+  <h1 class="subtitulo">ARRUMA ESSA PÁGINA</h1>
 
-  <?php if (empty($velasFavoritas)): ?>
+  <?php if (empty($itensCarrinho)): ?>
     <p class="subsubtitulo">Você ainda não favoritou nenhuma vela.</p>
     <div class="text-center mt-3"><a href="/galeria" class="btn btn-primary">Ver Galeria</a></div>
   <?php else: ?>
@@ -15,14 +15,14 @@
               <p class="mb-2">Aroma: <?= htmlspecialchars($vela->getAroma()) ?><br>Valor: R$ <?= number_format($vela->getPreco(),2,',','.') ?></p>
 
               <div class="mt-auto">
-                <form action="/favorito/toggle" method="POST">
+                <form action="/carrinho/add" method="POST">
                   <input type="hidden" name="id_vela" value="<?= $vela->getId() ?>">
                   <button type="submit" class="btn btn-outline-danger btn-sm">
-                    <i class="fa-solid fa-heart"></i> Remover dos favoritos
+                    <i class="fa-solid fa-heart"></i> Remover dos favoritos 
                   </button>
                 </form>
               </div>
-
+              
             </div>
           </div>
         </div>

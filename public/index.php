@@ -1,7 +1,6 @@
 <?php
 
-use App\Controller\FavoritoController;
-use App\Controller\GaleriaController;
+use App\Controller\ItemCarrinhoController;
 use App\Controller\HomeController;
 use App\Controller\LoginController;
 use App\Controller\NotFoundController;
@@ -21,14 +20,12 @@ $routes = [
     '/logout' => [new LoginController, 'logout'],
     '/cadastro' =>[new CadastroController, 'render'],
     '/cadastro/cadastrar' =>[new CadastroController, 'cadastrar'],
-    '/favorito' =>[new FavoritoController, 'listar'],
-    '/favorito/toggle' =>[new FavoritoController, 'toggle'],
+    '/carrinho' =>[new ItemCarrinhoController, 'listar'],
+    '/carrinho/add' =>[new ItemCarrinhoController, 'add'],
     '/admin' => [new AdminVelaController, 'listar'],
     '/admin/criar' => [new AdminVelaController, 'criar'],
     '/admin/editar' => [new AdminVelaController, 'editar'],
     '/admin/remover' => [new AdminVelaController, 'remover'],
-    //'/product' => [new ProductController, 'render'],
-    //'/product/create' => [new ProductController, 'create']
 ];
 
 $controller = $routes[$uri] ?? [new NotFoundController, 'render'];

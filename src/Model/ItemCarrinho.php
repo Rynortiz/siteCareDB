@@ -5,8 +5,8 @@ use App\Core\Database;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
-#[ORM\Table(name: "favoritos")]
-class Favorito
+#[ORM\Table(name: "itens_carrinho")]
+class ItemCarrinho
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -40,7 +40,7 @@ class Favorito
     public static function getClass() {
         
         $em = Database::getEntityManager();
-        $repository = $em->getRepository(Favorito::class);
+        $repository = $em->getRepository(ItemCarrinho::class);
 
         return $repository->getClass();
 
@@ -49,7 +49,7 @@ class Favorito
     public static function findAll(): array
     {
         $em = Database::getEntityManager();
-        $repository = $em->getRepository(Favorito::class);
+        $repository = $em->getRepository(ItemCarrinho::class);
         return $repository->findAll();
     }
 

@@ -26,7 +26,7 @@
                 <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="galeria">Galeria</a>
 
                 <?php if ($nomeUsuario !== 'Seja bem-vindo!'): ?>
-                    <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="favorito">Meus favoritos</a>
+                    <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="carrinho">Seu carrinho</a>
 
                     <?php if (!empty($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'ADMIN'): ?>
                         <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="admin">Gerenciar Velas</a>

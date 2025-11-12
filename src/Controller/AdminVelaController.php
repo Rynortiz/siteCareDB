@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Core\Database;
@@ -40,10 +41,11 @@ class AdminVelaController
         if ($nome && $aroma && $preco && $imagem) {
             $vela = new Vela($nome, $aroma, (float)$preco, $imagem, VelaStatus::from($status));
             $vela->save();
+
+            header("Location: /admin");
+            exit;
         }
 
-        header("Location: /admin/velas");
-        exit;
     }
 
     public function editar(): void
@@ -51,7 +53,7 @@ class AdminVelaController
         $this->checkAdmin();
         $id = $_POST['id'] ?? null;
         if (!$id) {
-            header("Location: /admin/velas");
+            header("Location: /admin");
             exit;
         }
 
@@ -66,10 +68,10 @@ class AdminVelaController
             $vela->setStatus(VelaStatus::from($_POST['status'] ?? $vela->getStatus()->value));
 
             $em->flush();
+            header("Location: /admin");
+            exit;
         }
 
-        header("Location: /admin/velas");
-        exit;
     }
 
     public function remover(): void
@@ -83,9 +85,10 @@ class AdminVelaController
                 $em->remove($vela);
                 $em->flush();
             }
+            
+            header("Location: /admin");
+            exit;
         }
 
-        header("Location: /admin/velas");
-        exit;
     }
 }

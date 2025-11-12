@@ -53,4 +53,5 @@ class Usuario
         $repository = $em->getRepository(Usuario::class);
         return $repository->findAll();
     }
+    
 }

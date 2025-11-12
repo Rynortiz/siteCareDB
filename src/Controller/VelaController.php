@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Core\Database;
 use App\Model\Vela;
-use App\Model\Favorito;
+use App\Model\ItemCarrinho;
 use App\Model\VelaStatus;
 use App\Model\Usuario;
 
@@ -20,14 +20,14 @@ class VelaController
 
         $velas = $em->getRepository(Vela::class)->findBy(['status' => VelaStatus::DISPONIVEL]);
 
-        $favoritos = [];
+        $itens = [];
 
         if ($idUsuario) {
-            $favoritoRepo = $em->getRepository(Favorito::class);
+            $carrinhoRepo = $em->getRepository(ItemCarrinho::class);
             $usuario = $em->find(Usuario::class, $idUsuario);
-            $favoritosUsuario = $favoritoRepo->findBy(['usuario' => $usuario]);
-            foreach ($favoritosUsuario as $fav) {
-                $favoritos[] = $fav->getVela()->getId();
+            $carrinhoUsuario = $carrinhoRepo->findBy(['usuario' => $usuario]);
+            foreach ($carrinhoUsuario as $car) {
+                $itens[] = $car->getVela()->getId();
             }
         }
 

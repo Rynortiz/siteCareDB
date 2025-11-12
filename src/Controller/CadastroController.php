@@ -30,7 +30,7 @@ class CadastroController
 
         $em = Database::getEntityManager();
 
-        // Verificar se já existe email
+        // verificação de email
         $repo = $em->getRepository(Usuario::class);
         $usuarioExistente = $repo->findOneBy(['email' => $email]);
 
@@ -40,18 +40,18 @@ class CadastroController
             exit;
         }
 
-        // Criar usuário
+        // cria usuario
 
         $usuario = new Usuario(
             $nome,
             $email,
-            password_hash($senha, PASSWORD_BCRYPT),
+            password_hash($senha, CRYPT_SHA512),
             TipoUsuario::CLIENTE
         );
         
         $usuario->save();
 
-        // Loga automaticamente após cadastro
+        // loga dps de criar conta
         $_SESSION['id_usuario'] = $usuario->getId();
         $_SESSION['nome_usuario'] = $usuario->getNome();
         $_SESSION['tipo_usuario'] = $usuario->getTipo()->name;

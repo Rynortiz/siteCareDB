@@ -9,18 +9,118 @@
 body {
     display: flex;
     flex-direction: column;
-    height: 100%;
     background-color: #FEFAE0;
+    min-height: 100vh;
+}
+
+.container{
+
+    min-height: 100vh;
+
 }
 
 .container-login {
 
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100vh;
     background-color: #FEFAE0;
 
 
+}
+
+.carrinho-container {
+    width: 100%;
+    min-height: 100vh;
+    max-width: 1000px;
+    margin: 10px auto;
+    padding: 10px;
+    background-color: #FEFAE0;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items:start;
+}
+
+.carrinho-topo {
+
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+
+}
+
+.carrinho-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.carrinho-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 6px 18px;
+}
+
+.carrinho-img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.carrinho-info {
+    flex: 1;
+    padding: 0 12px;
+    color: #283618;
+    font-weight: 800;
+}
+
+.carrinho-preco {
+    width: 160px;
+    text-align: center;
+    color: #283618;
+}
+
+.item-quantidade {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.btn-qtd {
+    background-color: #283618;
+    color: #FEFAE0;
+    border: 2px solid #3c5223;
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.btn-qtd:hover {
+    background-color: #3c5223;
+}
+
+.btn-finalizar {
+    background-color: #5e8535;
+    color: #FEFAE0;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: 900;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-finalizar:hover {
+    background-color: #3c5223;
 }
 
 .container-banner {
@@ -112,6 +212,18 @@ body {
     position: absolute;
     z-index: 2;
 
+}
+
+.botao-carrinho {
+    margin-top: 2px;
+    font-size: 1.9em;
+    margin-right: 60px;
+    padding: 0px;
+    color: #606C38;
+    cursor: pointer;
+    text-decoration: none;
+    position: absolute;
+    z-index: 2;
 }
 
 .hamburger {
@@ -412,6 +524,7 @@ body {
     font-size: 1.6em;
     font-weight: 1000;
     margin: 20px 0px 10px 0px;
+    width: fit-content;
 
 }
 
@@ -427,6 +540,7 @@ body {
     font-size: 1.35em;
     font-weight: 1000;
     margin: 20px 0px 30px 0px;
+    width: fit-content;
 
 }
 

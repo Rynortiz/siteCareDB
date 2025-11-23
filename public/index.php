@@ -13,6 +13,10 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $uri = $_SERVER['REQUEST_URI'];
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $routes = [
     '/home' => [new HomeController, 'render'],
     '/produto' => [new VelaController, 'listar'],
@@ -29,7 +33,8 @@ $routes = [
     '/admin/remover' => [new AdminVelaController, 'remover'],
     '/carrinho' => [new CarrinhoController, 'listar'],
     '/carrinho/add' => [new CarrinhoController, 'add'],
-    '/carrinho/atualizarQuantidade' => [new CarrinhoController, 'atualizarQuantidade'],
+    '/carrinho/acrescimo' => [new CarrinhoController, 'acrescentarItem'],
+    '/carrinho/decrescimo' => [new CarrinhoController, 'diminuirItem'],
     '/carrinho/remover' => [new CarrinhoController, 'remover'],
     '/carrinho/finalizar' => [new CarrinhoController, 'finalizar'],
 

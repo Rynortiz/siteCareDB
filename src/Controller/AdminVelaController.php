@@ -10,7 +10,6 @@ class AdminVelaController
 {
     private function checkAdmin(): void
     {
-        session_start();
 
         if (empty($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'ADMIN') {
             header("Location: /login");
@@ -21,8 +20,6 @@ class AdminVelaController
     public function listar(): void
     {
         $this->checkAdmin();
-        $idUsuario = $_SESSION['id_usuario'];
-        $nomeUsuario = $_SESSION['nome_usuario'] ?? "Seja bem-vindo!";
         $em = Database::getEntityManager();
         $velas = $em->getRepository(Vela::class)->findAll();
         $page = 'admin_velas';

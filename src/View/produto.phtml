@@ -13,14 +13,22 @@
                         Valor: R$ <?= number_format($vela->getPreco(), 2, ',', '.') ?>
                     </p>
 
+
                     <form method="POST" action="/carrinho/add">
                         <input type="hidden" name="id_vela" value="<?= $vela->getId() ?>">
-                        <?php if (!empty($_SESSION['id_usuario'])): ?>
-                            <button class="btn btn-success mt-2">
-                                <i class="fa-regular fa-cart-shopping" style="font-size:60px"></i>Adicionar ao Carrinho
+
+                        <?php if (in_array($vela->getId(), $itensCarrinho)): ?>
+
+                            <button class="btn btn-secondary mt-2" style="padding:5px; margin: 5px; font-size:large;" disabled>
+                                ✔ Já está no carrinho
                             </button>
+
                         <?php else: ?>
-                            <a href="/login" class="btn btn-warning mt-2">Faça login para comprar e ou favoritar</a>
+
+                            <button class="btn btn-success mt-2" style="padding:5px; margin: 5px; font-size:large;">
+                                🛒 Adicionar ao Carrinho
+                            </button>
+
                         <?php endif; ?>
                     </form>
 
@@ -34,15 +42,16 @@
                                     <i class="fa-solid fa-heart"></i> Remover dos favoritos
                                 </button>
                             <?php else: ?>
-                                <button type="submit" class="btn btn-success btn-sm" title="Adicionar aos favoritos">
+                                <button type="submit" class="btn btn-success btn-sm" title="Adicionar aos favoritos" style="background-color: #ec95d7ff; color: #180c0cff;">
                                     <i class="fa-regular fa-heart"></i> Adicionar aos favoritos
                                 </button>
                             <?php endif; ?>
                         </form>
                     <?php else: ?>
                         <div class="alert alert-warning text-center p-2">
-                            Faça login para adicionar velas na sua lista de favoritos.
+                            Faça login para adicionar velas á sua lista de favoritos ❤ ou ao carrinho 🛒.
                         </div>
+                        <a href="/login" class="btn btn-success">👤 Login</a>
                     <?php endif; ?>
 
                 </div>

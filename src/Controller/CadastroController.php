@@ -16,7 +16,6 @@ class CadastroController
 
     public function cadastrar()
     {
-        session_start();
 
         $nome = $_POST['nome'] ?? '';
         $email = $_POST['email'] ?? '';

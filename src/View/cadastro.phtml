@@ -1,7 +1,7 @@
 <div id="bo" class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
     <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
         <h3 class="text-center mb-4">Cadastro</h3>
-
+        
         <?php if (!empty($_SESSION['erro_login'])): ?>
             <div class="alert alert-danger">
                 <?= $_SESSION['erro_login']; unset($_SESSION['erro_login']); ?>

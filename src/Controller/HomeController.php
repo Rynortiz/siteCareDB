@@ -6,9 +6,6 @@ class HomeController
 {
     public function render(): void
     {
-        session_start();
-        
-        $nomeUsuario = $_SESSION['nome_usuario'] ?? 'Seja bem-vindo!';
 
         $page = 'home';
         include __DIR__ . '/../View/page.phtml';

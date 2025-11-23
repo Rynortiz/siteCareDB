@@ -1,5 +1,6 @@
 <body class="container">
     <div class="carrinho-container">
+        <div class="carrinho-topo">
         <h1 class="subtitulo">🛒 Meu Carrinho</h1>
 
         <?php if (!empty($_SESSION['erro'])): ?>
@@ -15,8 +16,10 @@
         <?php endif; ?>
 
         <?php if (empty($itens)): ?>
+
             <p class="subsubtitulo">Seu carrinho está vazio.</p>
             <div class="text-center mt-3"><a href="/produto" class="btn btn-primary">Ver Produtos</a></div>
+        </div>
         <?php else: ?>
             <div class="carrinho-lista" style="margin-top:20px;">
                 <?php $total = 0; ?>
@@ -38,9 +41,15 @@
                             <p class="mb-1">Estoque disponível: <?= $vela->getEstoque() ?></p>
 
                             <div class="item-quantidade" style="margin-top:8px;">
-                                <button class="btn-qtd menos" data-id-item="<?= $item->getId() ?>">-</button>
+                                <form method="POST" action="/carrinho/decrescimo">
+                                    <input type="hidden" name="id_item" value="<?= $item->getId() ?>">
+                                    <button type="submit" class="btn-qtd">-</button>
+                                </form>
                                 <span class="valor-qtd" id="qtd-<?= $item->getId() ?>"><?= $item->getQuantidade() ?></span>
-                                <button class="btn-qtd mais" data-id-item="<?= $item->getId() ?>">+</button>
+                                <form method="POST" action="/carrinho/acrescimo">
+                                    <input type="hidden" name="id_item" value="<?= $item->getId() ?>">
+                                    <button  type="submit" class="btn-qtd">+</button>
+                                </form>
 
                                 <form method="POST" action="/carrinho/remover" style="display:inline-block; margin-left:12px;">
                                     <input type="hidden" name="id_item" value="<?= $item->getId() ?>">
@@ -64,10 +73,10 @@
                             <button type="submit" class="btn btn-success btn-finalizar">Finalizar Compra</button>
                         </form>
 
-                        <!-- Link que abre conversa com WhatsApp com resumo (opcional) -->
+                        <!-- Link do api do zap -->
                         <?php
                             $mensagem = rawurlencode("Pedido Care - Total: R$ " . number_format($total,2,',','.'));
-                            $whatsappNumber = '55SEUNUMERODDDNÚMERO'; // substitua
+                            $whatsappNumber = '55SEUNUMERODDDNÚMERO'; // numero do zap
                         ?>
                         <a href="https://wa.me/<?=$whatsappNumber?>?text=<?=$mensagem?>" target="_blank" class="btn btn-primary">Pedir por WhatsApp</a>
                     </div>
@@ -111,58 +120,74 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
 <style>
-    /* Estilos locais específicos para carrinho, mantêm coerência com seu CSS */
-    .carrinho-container { width: 100%; max-width: 1000px; margin: 20px auto; padding: 16px; background-color: #FEFAE0; border-radius:12px;}
-    .carrinho-lista { display:flex; flex-direction:column; gap:14px; }
-    .carrinho-item { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px; background-color:#fff; border-radius:12px; box-shadow: rgba(0,0,0,0.08) 0px 6px 18px; }
-    .carrinho-img { width:110px; height:110px; object-fit:cover; border-radius:10px; }
-    .carrinho-info { flex:1; padding:0 12px; color:#283618; font-weight:800; }
-    .carrinho-preco { width:160px; text-align:center; color:#283618; }
-    .item-quantidade { display:flex; align-items:center; gap:8px; margin-top:8px; }
-    .btn-qtd { background-color:#283618; color:#FEFAE0; border:2px solid #3c5223; padding:6px 12px; border-radius:10px; font-weight:900; cursor:pointer; }
-    .btn-qtd:hover { background-color:#3c5223; }
-    .btn-finalizar { background-color:#5e8535; color:#FEFAE0; padding:10px 18px; border-radius:12px; font-weight:900; border:none; cursor:pointer; }
-    .btn-finalizar:hover { background-color:#3c5223; }
+    
     @media (max-width:900px) {
         .carrinho-item { flex-direction:column; align-items:flex-start; }
         .carrinho-preco { width:100%; text-align:left; }
     }
     </style>
 
-
-
-<script>
-
-    // JS para botoes + / - usando fetch para endpoint /carrinho/atualizarQuantidade
-    document.querySelectorAll('.btn-qtd').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const idItem = this.getAttribute('data-id-item');
-            const acao = this.classList.contains('mais') ? 'mais' : 'menos';
-            
-            fetch('/carrinho/atualizarQuantidade', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id_item: idItem, acao })
-            })
-            .then(r => r.json())
-            .then(data => {
-                if (!data.ok) {
-                    alert(data.msg || 'Erro ao atualizar');
-                    return;
-                }
-                // se removido, recarrega ou remove o card
-                if (data.removido) {
-                    location.reload();
-                    return;
-                }
-                // recarrega para simplificar (poderíamos atualizar apenas o número e subtotal)
-                location.reload();
-            })
-            .catch(() => alert('Erro de rede'));
-        });
-    });
-
-</script>
 </body>

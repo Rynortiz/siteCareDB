@@ -11,9 +11,7 @@ class FavoritoController
 {
     public function toggle()
     {
-        session_start();
         $idUsuario = $_SESSION['id_usuario'];
-        $nomeUsuario = $_SESSION['nome_usuario'];
         $idVela = $_POST['id_vela'];
 
         $em = Database::getEntityManager();
@@ -37,9 +35,7 @@ class FavoritoController
 
     public function listar()
     {
-        session_start();
         $idUsuario = $_SESSION['id_usuario'];
-        $nomeUsuario = $_SESSION['nome_usuario'];
 
         $em = Database::getEntityManager();
 

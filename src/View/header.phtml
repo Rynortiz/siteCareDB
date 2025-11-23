@@ -1,7 +1,8 @@
 <header>
 
     <!--Menu hamburguer com dropdown -->
-    <?php if ($page !== 'login' && $page !== 'cadastro'): ?>
+    <?php $nomeUsuario = $_SESSION['nome_usuario'] ?? 'Seja bem-vindo!';
+    if ($page !== 'login' && $page !== 'cadastro' && $page !== 'erro'): ?>
         <div class='nav-bar'>
 
             <div class="mensagemLogin">
@@ -15,7 +16,25 @@
                     </span>
                 <?php endif; ?>
             </div>
+
+
+
+
+            
             <div class="menu-ham" id="topo">
+                
+                <?php if ($page === 'produto'): ?>
+    
+    
+                    <a class="botao-carrinho" href="/carrinho">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <?php if (!empty($quantidadeItensCarrinho)): ?>
+                            <span class="badge-carrinho"><?= $quantidadeItensCarrinho ?></span>
+                        <?php endif; ?>
+                    </a>
+    
+    
+                <?php endif; ?>
                 <a class="hamburger" onclick="ativarMenu()">
                     <i onclick="trocarIcone()" id="icone" class="fa-solid fa-bars" style="color: #606C38;"></i>
                 </a>
@@ -25,7 +44,7 @@
                     <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="/produto">Produtos</a>
                     <?php if ($nomeUsuario !== 'Seja bem-vindo!'): ?>
                         <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="favorito">Seus favoritos</a>
-                        
+
                         <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="carrinho">Seu carrinho</a>
 
                         <?php if (!empty($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'ADMIN'): ?>

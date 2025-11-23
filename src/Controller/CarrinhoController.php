@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Core\Database;
@@ -13,7 +14,6 @@ class CarrinhoController
 {
     private function requireLogin()
     {
-        session_start();
         if (empty($_SESSION['id_usuario'])) {
             header("Location: /login");
             exit;
@@ -23,11 +23,12 @@ class CarrinhoController
     public function listar()
     {
         $this->requireLogin();
-        $idUsuario = $_SESSION['id_usuario'];
-        $nomeUsuario = $_SESSION['nome_usuario'];
+
 
         $em = Database::getEntityManager();
         $usuario = $em->find(Usuario::class, $_SESSION['id_usuario']);
+
+        $itensCarrinho = [];
 
         $itens = $em->getRepository(CarrinhoItem::class)->findBy(['usuario' => $usuario]);
 
@@ -38,8 +39,7 @@ class CarrinhoController
     public function add()
     {
         $this->requireLogin();
-        session_start();
-        
+
 
         $idVela = (int)($_POST['id_vela'] ?? 0);
         if (!$idVela) {
@@ -51,7 +51,7 @@ class CarrinhoController
         $em = Database::getEntityManager();
         $vela = $em->find(Vela::class, $idVela);
 
-        // checagens: existe, status e estoque
+        // verificação existe, status e estoque
         if (!$vela || $vela->getStatus()->value !== VelaStatus::DISPONIVEL->value) {
             $_SESSION['erro'] = "Produto indisponível.";
             header("Location: /produto");
@@ -70,16 +70,8 @@ class CarrinhoController
         $repo = $em->getRepository(CarrinhoItem::class);
         $item = $repo->findOneBy(['usuario' => $usuario, 'vela' => $vela]);
 
-        if ($item) {
-            // se já existe, incrementa verificando estoque
-            $novaQtd = $item->getQuantidade() + 1;
-            if ($novaQtd > $vela->getEstoque()) {
-                $_SESSION['erro'] = "Quantidade solicitada maior que o estoque.";
-            } else {
-                $item->setQuantidade($novaQtd);
-                $em->flush();
-            }
-        } else {
+        if (!$item) {
+            // se não existe, cria e adiciona no carrinho
             $novo = new CarrinhoItem($usuario, $vela, 1);
             $em->persist($novo);
             $em->flush();
@@ -89,21 +81,13 @@ class CarrinhoController
         exit;
     }
 
-    // endpoint AJAX para atualizar quantidade (+/-)
-    public function atualizarQuantidade()
+    public function acrescentarItem()
     {
         $this->requireLogin();
-        session_start();
 
-        // espera JSON com { id_item, acao: 'mais'|'menos' }
-        $input = json_decode(file_get_contents('php://input'), true);
-        $idItem = (int)($input['id_item'] ?? 0);
-        $acao = $input['acao'] ?? '';
-
-        header('Content-Type: application/json');
-
-        if (!$idItem || !in_array($acao, ['mais','menos'])) {
-            echo json_encode(['ok'=>false,'msg'=>'Requisição inválida']);
+        $idItem = (int)($_POST['id_item'] ?? 0);
+        if (!$idItem) {
+            header("Location: /carrinho");
             exit;
         }
 
@@ -111,45 +95,70 @@ class CarrinhoController
         $item = $em->find(CarrinhoItem::class, $idItem);
 
         if (!$item) {
-            echo json_encode(['ok'=>false,'msg'=>'Item não encontrado']);
+            $_SESSION['erro'] = "Item não encontrado.";
+            header("Location: /carrinho");
             exit;
         }
 
         $vela = $item->getVela();
+        $qtdAtual = $item->getQuantidade();
 
-        if ($vela->getStatus()->value !== VelaStatus::DISPONIVEL->value) {
-            echo json_encode(['ok'=>false,'msg'=>'Produto indisponível']);
+        if ($qtdAtual >= $vela->getEstoque()) {
+            $_SESSION['erro'] = "Estoque máximo atingido.";
+            header("Location: /carrinho");
             exit;
         }
 
-        if ($acao === 'mais') {
-            if ($item->getQuantidade() + 1 > $vela->getEstoque()) {
-                echo json_encode(['ok'=>false,'msg'=>'Estoque insuficiente']);
-                exit;
-            }
-            $item->setQuantidade($item->getQuantidade() + 1);
-        } else {
-            // menos
-            $q = $item->getQuantidade() - 1;
-            if ($q <= 0) {
-                // remover item
-                $em->remove($item);
-                $em->flush();
-                echo json_encode(['ok'=>true,'msg'=>'Item removido','removido'=>true]);
-                exit;
-            }
-            $item->setQuantidade($q);
-        }
-
+        $item->setQuantidade($qtdAtual + 1);
         $em->flush();
-        echo json_encode(['ok'=>true]);
+
+        header("Location: /carrinho");
         exit;
     }
+
+    public function diminuirItem()
+    {
+        $this->requireLogin();
+
+        $idItem = (int)($_POST['id_item'] ?? 0);
+        if (!$idItem) {
+            header("Location: /carrinho");
+            exit;
+        }
+
+        $em = Database::getEntityManager();
+        $item = $em->find(CarrinhoItem::class, $idItem);
+
+        if (!$item) {
+            header("Location: /carrinho");
+            exit;
+        }
+
+        $qtdAtual = $item->getQuantidade();
+
+        if ($qtdAtual <= 1) {
+            // Remover item quando chegar a 0
+            $em->remove($item);
+            $em->flush();
+            header("Location: /carrinho");
+            exit;
+        }
+
+        $item->setQuantidade($qtdAtual - 1);
+        $em->flush();
+
+        header("Location: /carrinho");
+        exit;
+    }
+
+
+
+
+    // endpoint AJAX para atualizar quantidade (+/-)
 
     public function remover()
     {
         $this->requireLogin();
-        session_start();
 
         $id = (int)($_POST['id_item'] ?? 0);
         if (!$id) {
@@ -173,10 +182,9 @@ class CarrinhoController
     public function finalizar()
     {
         $this->requireLogin();
-        session_start();
 
         $em = Database::getEntityManager();
-        $conn = $em->getConnection(); // DBAL connection
+        $conn = $em->getConnection();
         $usuario = $em->find(Usuario::class, $_SESSION['id_usuario']);
 
         $itens = $em->getRepository(CarrinhoItem::class)->findBy(['usuario' => $usuario]);

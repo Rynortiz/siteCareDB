@@ -14,7 +14,6 @@ class LoginController
 
     public function autenticar(): void
     {
-        session_start();
 
         $email = $_POST['email'] ?? '';
         $senha = $_POST['senha'] ?? '';

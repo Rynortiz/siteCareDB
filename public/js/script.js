@@ -78,3 +78,21 @@ function validarSenhas() {
     }
     return true;
 }
+//=============================================================
+// script da imagem do construct das velas no admin_velas
+
+document.getElementById("string_file").addEventListener("change", function () {
+    let file = this.files[0];
+    if (file) {
+        document.getElementById("imagem").value = "images/" + file.name;
+    }
+    file = null;
+});
+
+document.getElementById("string_file2").addEventListener("change", function () {
+    let file = this.files[0];
+    if (file !== null) {
+        document.getElementById("imagem2").value = "images/" + file.name;
+    }
+    file = null
+});

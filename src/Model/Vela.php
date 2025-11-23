@@ -22,17 +22,21 @@ class Vela
     #[ORM\Column(type: "decimal", precision: 10, scale: 2)]
     private float $preco;
 
+    #[ORM\Column(type: "integer")]
+    private int $estoque = 0;
+
     #[ORM\Column(type: "string", length: 255)]
     private string $imagem;
 
     #[ORM\Column(type: "string", enumType: VelaStatus::class)]
     private VelaStatus $status;
 
-    public function __construct(string $nome, string $aroma, float $preco, string $imagem, VelaStatus $status)
+    public function __construct(string $nome, string $aroma, float $preco, int $estoque, string $imagem, VelaStatus $status)
     {
         $this->nome = $nome;
         $this->aroma = $aroma;
         $this->preco = $preco;
+        $this->estoque = $estoque;
         $this->imagem = $imagem;
         $this->status = $status;
     }
@@ -50,6 +54,9 @@ class Vela
 
     public function getImagem(): string { return $this->imagem; }
     public function setImagem(string $imagem): void { $this->imagem = $imagem; }
+
+    public function getEstoque(): int { return $this->estoque; }
+    public function setEstoque(int $estoque): void { $this->estoque = $estoque; }
 
     public function getStatus(): VelaStatus { return $this->status; }
     public function setStatus(VelaStatus $status): void { $this->status = $status; }

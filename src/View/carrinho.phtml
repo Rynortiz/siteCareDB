@@ -1,32 +1,168 @@
-<body class="container py-4">
-  <h1 class="subtitulo">ARRUMA ESSA PÁGINA</h1>
+<body class="container">
+    <div class="carrinho-container">
+        <h1 class="subtitulo">🛒 Meu Carrinho</h1>
 
-  <?php if (empty($itensCarrinho)): ?>
-    <p class="subsubtitulo">Você ainda não favoritou nenhuma vela.</p>
-    <div class="text-center mt-3"><a href="/galeria" class="btn btn-primary">Ver Galeria</a></div>
-  <?php else: ?>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-      <?php foreach ($velasFavoritas as $vela): ?>
-        <div class="col">
-          <div class="card h-100">
-            <img src="<?= htmlspecialchars($vela->getImagem()) ?>" class="card-img-top" alt="<?= htmlspecialchars($vela->getNome()) ?>">
-            <div class="card-body d-flex flex-column">
-              <h5><?= htmlspecialchars($vela->getNome()) ?></h5>
-              <p class="mb-2">Aroma: <?= htmlspecialchars($vela->getAroma()) ?><br>Valor: R$ <?= number_format($vela->getPreco(),2,',','.') ?></p>
-
-              <div class="mt-auto">
-                <form action="/carrinho/add" method="POST">
-                  <input type="hidden" name="id_vela" value="<?= $vela->getId() ?>">
-                  <button type="submit" class="btn btn-outline-danger btn-sm">
-                    <i class="fa-solid fa-heart"></i> Remover dos favoritos 
-                  </button>
-                </form>
-              </div>
-              
+        <?php if (!empty($_SESSION['erro'])): ?>
+            <div class="alert alert-danger" style="margin:16px 0;">
+                <?= $_SESSION['erro']; unset($_SESSION['erro']); ?>
             </div>
-          </div>
-        </div>
-      <?php endforeach; ?>
+        <?php endif; ?>
+
+        <?php if (!empty($_SESSION['msg'])): ?>
+            <div class="alert alert-success" style="margin:16px 0;">
+                <?= $_SESSION['msg']; unset($_SESSION['msg']); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (empty($itens)): ?>
+            <p class="subsubtitulo">Seu carrinho está vazio.</p>
+            <div class="text-center mt-3"><a href="/produto" class="btn btn-primary">Ver Produtos</a></div>
+        <?php else: ?>
+            <div class="carrinho-lista" style="margin-top:20px;">
+                <?php $total = 0; ?>
+                <?php foreach ($itens as $item): ?>
+                    <?php
+                        $vela = $item->getVela();
+                        $subtotal = $item->getQuantidade() * $vela->getPreco();
+                        $total += $subtotal;
+                    ?>
+                    <div class="carrinho-item">
+                        <img src="<?= htmlspecialchars($vela->getImagem()) ?>" class="carrinho-img" alt="<?= htmlspecialchars($vela->getNome()) ?>">
+
+                        <div class="carrinho-info">
+                            <h3 class="subsubtitulo" style="background-color:transparent;color:#283618;padding:6px;border-radius:8px;display:inline-block;">
+                                <?= htmlspecialchars($vela->getNome()) ?>
+                            </h3>
+                            <p class="mb-1">Aroma: <?= htmlspecialchars($vela->getAroma()) ?></p>
+                            <p class="mb-1">Preço unitário: R$ <?= number_format($vela->getPreco(),2,',','.') ?></p>
+                            <p class="mb-1">Estoque disponível: <?= $vela->getEstoque() ?></p>
+
+                            <div class="item-quantidade" style="margin-top:8px;">
+                                <button class="btn-qtd menos" data-id-item="<?= $item->getId() ?>">-</button>
+                                <span class="valor-qtd" id="qtd-<?= $item->getId() ?>"><?= $item->getQuantidade() ?></span>
+                                <button class="btn-qtd mais" data-id-item="<?= $item->getId() ?>">+</button>
+
+                                <form method="POST" action="/carrinho/remover" style="display:inline-block; margin-left:12px;">
+                                    <input type="hidden" name="id_item" value="<?= $item->getId() ?>">
+                                    <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="carrinho-preco">
+                            <p>Total do item:</p>
+                            <h4>R$ <?= number_format($subtotal,2,',','.') ?></h4>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+
+                <div class="carrinho-resumo" style="margin-top:20px;">
+                    <h3>Total: R$ <?= number_format($total,2,',','.') ?></h3>
+
+                    <div style="display:flex; gap:12px; margin-top:12px;">
+                        <form method="POST" action="/carrinho/finalizar" style="display:inline-block;">
+                            <button type="submit" class="btn btn-success btn-finalizar">Finalizar Compra</button>
+                        </form>
+
+                        <!-- Link que abre conversa com WhatsApp com resumo (opcional) -->
+                        <?php
+                            $mensagem = rawurlencode("Pedido Care - Total: R$ " . number_format($total,2,',','.'));
+                            $whatsappNumber = '55SEUNUMERODDDNÚMERO'; // substitua
+                        ?>
+                        <a href="https://wa.me/<?=$whatsappNumber?>?text=<?=$mensagem?>" target="_blank" class="btn btn-primary">Pedir por WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+
+        <?php endif; ?>
     </div>
-  <?php endif; ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+    /* Estilos locais específicos para carrinho, mantêm coerência com seu CSS */
+    .carrinho-container { width: 100%; max-width: 1000px; margin: 20px auto; padding: 16px; background-color: #FEFAE0; border-radius:12px;}
+    .carrinho-lista { display:flex; flex-direction:column; gap:14px; }
+    .carrinho-item { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px; background-color:#fff; border-radius:12px; box-shadow: rgba(0,0,0,0.08) 0px 6px 18px; }
+    .carrinho-img { width:110px; height:110px; object-fit:cover; border-radius:10px; }
+    .carrinho-info { flex:1; padding:0 12px; color:#283618; font-weight:800; }
+    .carrinho-preco { width:160px; text-align:center; color:#283618; }
+    .item-quantidade { display:flex; align-items:center; gap:8px; margin-top:8px; }
+    .btn-qtd { background-color:#283618; color:#FEFAE0; border:2px solid #3c5223; padding:6px 12px; border-radius:10px; font-weight:900; cursor:pointer; }
+    .btn-qtd:hover { background-color:#3c5223; }
+    .btn-finalizar { background-color:#5e8535; color:#FEFAE0; padding:10px 18px; border-radius:12px; font-weight:900; border:none; cursor:pointer; }
+    .btn-finalizar:hover { background-color:#3c5223; }
+    @media (max-width:900px) {
+        .carrinho-item { flex-direction:column; align-items:flex-start; }
+        .carrinho-preco { width:100%; text-align:left; }
+    }
+    </style>
+
+
+
+<script>
+
+    // JS para botoes + / - usando fetch para endpoint /carrinho/atualizarQuantidade
+    document.querySelectorAll('.btn-qtd').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const idItem = this.getAttribute('data-id-item');
+            const acao = this.classList.contains('mais') ? 'mais' : 'menos';
+            
+            fetch('/carrinho/atualizarQuantidade', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id_item: idItem, acao })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (!data.ok) {
+                    alert(data.msg || 'Erro ao atualizar');
+                    return;
+                }
+                // se removido, recarrega ou remove o card
+                if (data.removido) {
+                    location.reload();
+                    return;
+                }
+                // recarrega para simplificar (poderíamos atualizar apenas o número e subtotal)
+                location.reload();
+            })
+            .catch(() => alert('Erro de rede'));
+        });
+    });
+
+</script>
 </body>

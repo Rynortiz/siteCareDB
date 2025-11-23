@@ -23,23 +23,38 @@
 
 <?php
 
-include __DIR__ . '/header.phtml';
+if ($page !== "erro") {
+
+    include __DIR__ . '/header.phtml';
 
 ?>
-<main>
+    <main>
 
-    <?php
+        <?php
 
-    include __DIR__ . "/{$page}.phtml";
+        include __DIR__ . "/{$page}.phtml";
 
-    ?>
+        ?>
 
-</main>
+    </main>
 
 <?php
 
-include __DIR__ . '/footer.phtml';
+    include __DIR__ . '/footer.phtml';
+} else {
 
+?>
+    <main>
+
+
+        <?php
+        include __DIR__ . "/{$page}.phtml";
+
+        ?>
+    </main>
+
+<?php
+}
 ?>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

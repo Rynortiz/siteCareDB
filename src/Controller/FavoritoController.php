@@ -3,13 +3,13 @@
 namespace App\Controller;
 
 use App\Core\Database;
-use App\Model\ItemCarrinho;
+use App\Model\Favorito;
 use App\Model\Vela;
 use App\Model\Usuario;
 
-class ItemCarrinhoController
+class FavoritoController
 {
-    public function add()
+    public function toggle()
     {
         session_start();
         $idUsuario = $_SESSION['id_usuario'];
@@ -20,14 +20,14 @@ class ItemCarrinhoController
         $usuario = $em->find(Usuario::class, $idUsuario);
         $vela = $em->find(Vela::class, $idVela);
 
-        $itemRepo = $em->getRepository(ItemCarrinho::class);
-        $itemNoCarrinho = $itemRepo->findOneBy(['usuario' => $usuario, 'vela' => $vela]);
+        $favoritoRepo = $em->getRepository(Favorito::class);
+        $favoritoExistente = $favoritoRepo->findOneBy(['usuario' => $usuario, 'vela' => $vela]);
 
-        if ($itemNoCarrinho) {
-            $em->remove($itemNoCarrinho); // remove do carrinho
+        if ($favoritoExistente) {
+            $em->remove($favoritoExistente); // remover
         } else {
-            $carrinho = new ItemCarrinho($usuario, $vela);
-            $em->persist($carrinho); // coloca no carrinho
+            $favorito = new Favorito($usuario, $vela);
+            $em->persist($favorito); // adicionar
         }
 
         $em->flush();
@@ -43,17 +43,18 @@ class ItemCarrinhoController
 
         $em = Database::getEntityManager();
 
+        // Buscar favoritos do usuário
+        $favoritoRepo = $em->getRepository(Favorito::class);
         // buscar itens
-        $itemRepo = $em->getRepository(ItemCarrinho::class);
         $usuario = $em->find(Usuario::class, $idUsuario);
-        $itensDoUsuario = $itemRepo->findBy(['usuario' => $usuario]);
+        $favoritosUsuario = $favoritoRepo->findBy(['usuario' => $usuario]);
 
-        $itensCarrinho = [];
-        foreach ($itensDoUsuario as $item) {
-            $itensCarrinho[] = $item->getVela();
+        $velasFavoritas = [];
+        foreach ($favoritosUsuario as $fav) {
+            $velasFavoritas[] = $fav->getVela();
+
         }
-
-        $page = 'carrinho';
+        $page = 'favorito';
         require __DIR__ . '/../View/page.phtml';
     }
 }

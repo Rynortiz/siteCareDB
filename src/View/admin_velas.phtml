@@ -9,7 +9,9 @@
                 <div class="mb-2"><input type="text" name="nome" class="form-control" placeholder="Nome" required></div>
                 <div class="mb-2"><input type="text" name="aroma" class="form-control" placeholder="Aroma" required></div>
                 <div class="mb-2"><input type="number" step="0.01" name="preco" class="form-control" placeholder="Preço" required></div>
-                <div class="mb-2"><input type="file" accept="images/*" name="imagem" class="form-control" placeholder="URL da Imagem" required></div>
+                <div class="mb-2"><input type="number" name="estoque" class="form-control" placeholder="Estoque" required></div>
+                <div class="mb-2"><input type="file" id="string_file" accept="images/*" name="imagem_recebe" class="form-control" placeholder="URL da Imagem" required></div>
+                <input type="hidden" name="imagem" id="imagem">
                 <div class="mb-2">
                     <select name="status" class="form-control">
                         <option value="disponível">Disponível</option>
@@ -41,7 +43,9 @@
                             <input type="text" name="nome" value="<?= htmlspecialchars($vela->getNome()) ?>" class="form-control mb-1">
                             <input type="text" name="aroma" value="<?= htmlspecialchars($vela->getAroma()) ?>" class="form-control mb-1">
                             <input type="number" step="0.01" name="preco" value="<?= $vela->getPreco() ?>" class="form-control mb-1">
-                            <input type="file" name="imagem" accept="image/*" class="form-control mb-1">
+                            <input type="number" name="estoque" value="<?= $vela->getEstoque() ?>" class="form-control mb-1">
+                            <input type="file" id="string_file2" name="imagem_recebee" accept="images/*" placeholder="Url da imagem" class="form-control mb-1">
+                            <input type="hidden" name="imagem" id="imagem2">
                             <select name="status" class="form-control mb-2">
                                 <option value="disponível" <?= $vela->getStatus()->value === 'disponível' ? 'selected' : '' ?>>Disponível</option>
                                 <option value="indisponível" <?= $vela->getStatus()->value === 'indisponível' ? 'selected' : '' ?>>Indisponível</option>

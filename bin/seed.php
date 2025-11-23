@@ -17,10 +17,10 @@ $em->persist($usuario);
 $usuario = new Usuario("Admin", "admin@email.com", password_hash("123456", PASSWORD_DEFAULT), TipoUsuario::ADMIN);
 $em->persist($usuario);
 
-$vela1 = new Vela("Vela de Lavanda", "Lavanda", 29.90, "images/careVela2.jpeg", VelaStatus::DISPONIVEL);
-$vela2 = new Vela("Vela de Canela", "Canela", 34.90, "images/careVela4.jpg", VelaStatus::DISPONIVEL);
-$vela3 = new Vela("Vela de Hortelã", "Hortelã", 24.50, "images/careVela.jpg", VelaStatus::INDISPONIVEL);
-$vela4 = new Vela("Kit 3 Velas", "Mix de aromas", 89.90, "images/kit1.jpg", VelaStatus::DISPONIVEL);
+$vela1 = new Vela("Vela de Lavanda", "Lavanda", 29.90, 20,"images/careVela2.jpeg", VelaStatus::DISPONIVEL);
+$vela2 = new Vela("Vela de Canela", "Canela", 34.90, 20,"images/careVela4.jpg", VelaStatus::DISPONIVEL);
+$vela3 = new Vela("Vela de Hortelã", "Hortelã", 24.50, 20,"images/careVela.jpg", VelaStatus::INDISPONIVEL);
+$vela4 = new Vela("Kit 3 Velas", "Mix de aromas", 89.90, 20, "images/kit1.jpg", VelaStatus::DISPONIVEL);
 
 $em->persist($vela1);
 $em->persist($vela2);

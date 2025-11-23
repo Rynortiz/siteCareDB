@@ -1,0 +1,31 @@
+<body class="container">
+  <h1 class="subtitulo">Minhas Velas Favoritas</h1>
+
+  <?php if (empty($velasFavoritas)): ?>
+    <p class="subsubtitulo">Você ainda não favoritou nenhuma vela.</p>
+    <div class="text-center mt-3"><a href="/produto" class="btn btn-primary">Ver Produtos</a></div>
+  <?php else: ?>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+      <?php foreach ($velasFavoritas as $vela): ?>
+      <div class="col">
+        <div class="card h-100">
+          <img src="<?= htmlspecialchars($vela->getImagem()) ?>" class="card-img-top" alt="<?= htmlspecialchars($vela->getNome()) ?>">
+          <div class="card-body d-flex flex-column">
+            <h5><?= htmlspecialchars($vela->getNome()) ?></h5>
+            <p class="mb-2">Aroma: <?= htmlspecialchars($vela->getAroma()) ?><br>Valor: R$ <?= number_format($vela->getPreco(),2,',','.') ?></p>
+            
+            <div class="mt-auto">
+              <form action="/favorito/toggle" method="POST">
+                <input type="hidden" name="id_vela" value="<?= $vela->getId() ?>">
+                  <button type="submit" class="btn btn-outline-danger btn-sm">
+                    <i class="fa-solid fa-heart"></i> Remover dos favoritos
+                  </button>
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    </div>
+  <?php endif; ?>

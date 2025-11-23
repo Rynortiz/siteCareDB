@@ -2,45 +2,45 @@
 
     <!--Menu hamburguer com dropdown -->
     <?php if ($page !== 'login' && $page !== 'cadastro'): ?>
-    <div class='nav-bar'>
+        <div class='nav-bar'>
 
-        <div class="mensagemLogin">
-            <?php if ($nomeUsuario): ?>
-                <span class="navbar-text">
-                    👤 Olá, <strong><?= htmlspecialchars($nomeUsuario) ?></strong>
-                </span>
-            <?php else: ?>
-                <span class="navbar-text">
-                    👤 Faça seu <strong>Login</strong>
-                </span>
-            <?php endif; ?>
-        </div>
-        <div class="menu-ham" id="topo">
-            <a class="hamburger" onclick="ativarMenu()">
-                <i onclick="trocarIcone()" id="icone" class="fa-solid fa-bars" style="color: #606C38;"></i>
-            </a>
-            <div class="dropdown" id="dropdownMenu">
-                <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="home">Home</a>
-                <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="home#sobre">Sobre</a>
-                <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="home#produto">Produtos</a>
-                <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="galeria">Galeria</a>
+            <div class="mensagemLogin">
+                <?php if ($nomeUsuario): ?>
+                    <span class="navbar-text">
+                        👤 Olá, <strong><?= htmlspecialchars($nomeUsuario) ?></strong>
+                    </span>
+                <?php else: ?>
+                    <span class="navbar-text">
+                        <a href="/login" class="text-decoration-none">Voltar ao site</a>
+                    </span>
+                <?php endif; ?>
+            </div>
+            <div class="menu-ham" id="topo">
+                <a class="hamburger" onclick="ativarMenu()">
+                    <i onclick="trocarIcone()" id="icone" class="fa-solid fa-bars" style="color: #606C38;"></i>
+                </a>
+                <div class="dropdown" id="dropdownMenu">
+                    <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="home">Home</a>
+                    <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="home#sobre">Sobre</a>
+                    <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="/produto">Produtos</a>
+                    <?php if ($nomeUsuario !== 'Seja bem-vindo!'): ?>
+                        <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="favorito">Seus favoritos</a>
+                        
+                        <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="carrinho">Seu carrinho</a>
 
-                <?php if ($nomeUsuario !== 'Seja bem-vindo!'): ?>
-                    <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="carrinho">Seu carrinho</a>
+                        <?php if (!empty($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'ADMIN'): ?>
+                            <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="admin">Gerenciar Velas</a>
+                        <?php endif; ?>
 
-                    <?php if (!empty($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'ADMIN'): ?>
-                        <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="admin">Gerenciar Velas</a>
+                        <a onclick="ativarMenu(), trocarIcone()" class="dropContato" href="logout">Logout</a>
+                    <?php else: ?>
+                        <a onclick="ativarMenu(), trocarIcone()" class="dropContato" href="login">Login</a>
                     <?php endif; ?>
 
-                    <a onclick="ativarMenu(), trocarIcone()" class="dropContato" href="logout">Logout</a>
-                <?php else: ?>
-                    <a onclick="ativarMenu(), trocarIcone()" class="dropContato" href="login">Login</a>
-                <?php endif; ?>
+                    <a onclick="ativarMenu(), trocarIcone()" class="dropContato" href="home#contatos">Contato</a>
 
-                <a onclick="ativarMenu(), trocarIcone()" class="dropContato" href="home#contatos">Contato</a>
-                
+                </div>
             </div>
         </div>
-    </div>
     <?php endif; ?>
 </header>

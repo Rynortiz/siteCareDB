@@ -24,6 +24,7 @@ class CadastroController
 
         if (empty($nome) || empty($email) || empty($senha)) {
             $_SESSION['erro_login'] = "Preencha todos os campos!";
+            
             header("Location: /cadastro");
             exit;
         }

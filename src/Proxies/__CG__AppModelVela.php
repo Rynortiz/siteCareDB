@@ -23,12 +23,14 @@ class Vela extends \App\Model\Vela implements \Doctrine\ORM\Proxy\InternalProxy
 
     private const LAZY_OBJECT_PROPERTY_SCOPES = [
         "\0".parent::class."\0".'aroma' => [parent::class, 'aroma', null, 16],
+        "\0".parent::class."\0".'estoque' => [parent::class, 'estoque', null, 16],
         "\0".parent::class."\0".'id' => [parent::class, 'id', null, 16],
         "\0".parent::class."\0".'imagem' => [parent::class, 'imagem', null, 16],
         "\0".parent::class."\0".'nome' => [parent::class, 'nome', null, 16],
         "\0".parent::class."\0".'preco' => [parent::class, 'preco', null, 16],
         "\0".parent::class."\0".'status' => [parent::class, 'status', null, 16],
         'aroma' => [parent::class, 'aroma', null, 16],
+        'estoque' => [parent::class, 'estoque', null, 16],
         'id' => [parent::class, 'id', null, 16],
         'imagem' => [parent::class, 'imagem', null, 16],
         'nome' => [parent::class, 'nome', null, 16],

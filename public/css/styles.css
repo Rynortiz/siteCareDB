@@ -90,9 +90,10 @@ body {
     background-color: #fff;
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 400px; /* largura máxima do card de login */
+    max-width: 400px;
+    /* largura máxima do card de login */
 }
 
 .menu-ham {
@@ -102,6 +103,7 @@ body {
     position: relative;
 
 }
+
 .mensagemLogin {
 
     margin-left: 5px;
@@ -487,6 +489,8 @@ body {
 
 }
 
+
+
 @keyframes brilhar {
 
     0%,
@@ -608,6 +612,10 @@ body {
     font-weight: 1000;
 }
 
+/*Carrinho de compras: */
+
+
+
 @media (min-width: 1000px) {
 
     body {
@@ -699,6 +707,4 @@ body {
 
 
     }
-
-
 }

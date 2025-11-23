@@ -22,7 +22,7 @@ class AdminVelaController
     {
         $this->checkAdmin();
         $idUsuario = $_SESSION['id_usuario'];
-        $nomeUsuario = $_SESSION['nome_usuario'];
+        $nomeUsuario = $_SESSION['nome_usuario'] ?? "Seja bem-vindo!";
         $em = Database::getEntityManager();
         $velas = $em->getRepository(Vela::class)->findAll();
         $page = 'admin_velas';
@@ -35,17 +35,17 @@ class AdminVelaController
         $nome = $_POST['nome'] ?? '';
         $aroma = $_POST['aroma'] ?? '';
         $preco = $_POST['preco'] ?? '';
+        $estoque = $_POST['estoque'] ?? 0;
         $imagem = $_POST['imagem'] ?? '';
         $status = $_POST['status'] ?? 'DISPONIVEL';
 
-        if ($nome && $aroma && $preco && $imagem) {
-            $vela = new Vela($nome, $aroma, (float)$preco, $imagem, VelaStatus::from($status));
+        if ($nome && $aroma && $preco && $estoque && $imagem) {
+            $vela = new Vela($nome, $aroma, (float)$preco, (int)$estoque, $imagem, VelaStatus::from($status));
             $vela->save();
 
-            header("Location: /admin");
-            exit;
         }
-
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
     }
 
     public function editar(): void
@@ -64,14 +64,20 @@ class AdminVelaController
             $vela->setNome($_POST['nome'] ?? $vela->getNome());
             $vela->setAroma($_POST['aroma'] ?? $vela->getAroma());
             $vela->setPreco((float)($_POST['preco'] ?? $vela->getPreco()));
-            $vela->setImagem($_POST['imagem'] ?? $vela->getImagem());
+            $vela->setEstoque((int)($_POST['estoque'] ?? $vela->getEstoque()));
+            if ($vela->getImagem() !== $_POST['imagem'] && !empty($_POST['imagem'])) {
+
+                $vela->setImagem($_POST['imagem']);
+
+            }
             $vela->setStatus(VelaStatus::from($_POST['status'] ?? $vela->getStatus()->value));
-
             $em->flush();
-            header("Location: /admin");
-            exit;
+            echo "passou pelo if";
         }
-
+        else 
+            echo "Nao passou";
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
     }
 
     public function remover(): void
@@ -85,10 +91,9 @@ class AdminVelaController
                 $em->remove($vela);
                 $em->flush();
             }
-            
-            header("Location: /admin");
-            exit;
-        }
 
+        }
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        exit;
     }
 }

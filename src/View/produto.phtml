@@ -13,7 +13,20 @@
                         Valor: R$ <?= number_format($vela->getPreco(), 2, ',', '.') ?>
                     </p>
 
+                    <form method="POST" action="/carrinho/add">
+                        <input type="hidden" name="id_vela" value="<?= $vela->getId() ?>">
+                        <?php if (!empty($_SESSION['id_usuario'])): ?>
+                            <button class="btn btn-success mt-2">
+                                <i class="fa-regular fa-cart-shopping" style="font-size:60px"></i>Adicionar ao Carrinho
+                            </button>
+                        <?php else: ?>
+                            <a href="/login" class="btn btn-warning mt-2">Faça login para comprar e ou favoritar</a>
+                        <?php endif; ?>
+                    </form>
+
                     <?php if (!empty($idUsuario)): ?>
+
+
                         <form action="/favorito/toggle" method="POST">
                             <input type="hidden" name="id_vela" value="<?= $vela->getId() ?>">
                             <?php if (in_array($vela->getId(), $favoritos)): ?>

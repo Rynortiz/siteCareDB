@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Core\Database;
@@ -27,6 +28,8 @@ class LoginController
             $_SESSION['id_usuario'] = $usuario->getId();
             $_SESSION['nome_usuario'] = $usuario->getNome();
             $_SESSION['tipo_usuario'] = $usuario->getTipo()->name;
+            $em->getConnection()->executeQuery("SET @usuario_id := :uid", ['uid' => $usuario]);
+
             header("Location: /home");
             exit;
         } else {

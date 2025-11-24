@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Core\Database;
 use App\Model\Vela;
 use App\Model\VelaStatus;
+use App\Model\Usuario;
 
 class AdminVelaController
 {
@@ -67,7 +68,10 @@ class AdminVelaController
                 $vela->setImagem($_POST['imagem']);
 
             }
+
             $vela->setStatus(VelaStatus::from($_POST['status'] ?? $vela->getStatus()->value));
+            $usuario = $_SESSION['id_usuario'];
+            $em->getConnection()->executeQuery("SET @usuario_id := :uid", ['uid' => $usuario]);
             $em->flush();
             echo "passou pelo if";
         }

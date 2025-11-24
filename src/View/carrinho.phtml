@@ -1,193 +1,131 @@
 <body class="container">
     <div class="carrinho-container">
+
         <div class="carrinho-topo">
-        <h1 class="subtitulo">🛒 Meu Carrinho</h1>
+            <h1 class="subtitulo">🛒 Meu Carrinho</h1>
 
-        <?php if (!empty($_SESSION['erro'])): ?>
-            <div class="alert alert-danger" style="margin:16px 0;">
-                <?= $_SESSION['erro']; unset($_SESSION['erro']); ?>
-            </div>
-        <?php endif; ?>
+            <?php if (!empty($_SESSION['erro'])): ?>
+                <div class="alert alert-danger" style="margin:16px 0;">
+                    <?= $_SESSION['erro'];
+                    unset($_SESSION['erro']); ?>
+                </div>
+            <?php endif; ?>
 
-        <?php if (!empty($_SESSION['msg'])): ?>
-            <div class="alert alert-success" style="margin:16px 0;">
-                <?= $_SESSION['msg']; unset($_SESSION['msg']); ?>
-            </div>
-        <?php endif; ?>
+            <?php if (!empty($_SESSION['msg'])): ?>
+                <div class="alert alert-success" style="margin:16px 0;">
+                    <?= $_SESSION['msg'];
+                    unset($_SESSION['msg']); ?>
+                </div>
+            <?php endif; ?>
 
-        <?php if (empty($itens)): ?>
-
-            <p class="subsubtitulo">Seu carrinho está vazio.</p>
-            <div class="text-center mt-3"><a href="/produto" class="btn btn-primary">Ver Produtos</a></div>
+            <?php if (count($itensCarrinho) === 0): ?>
+                <p class="subsubtitulo">Seu carrinho está vazio.</p>
+                <div class="text-center mt-3">
+                    <a href="/produto" class="btn btn-primary">Ver Produtos</a>
+                </div>
         </div>
-        <?php else: ?>
-            <div class="carrinho-lista" style="margin-top:20px;">
-                <?php $total = 0; ?>
-                <?php foreach ($itens as $item): ?>
+
+    <?php else: ?>
+
+        <div class="carrinho-lista" style="margin-top:20px;">
+
+            <?php $total = 0; ?>
+            <?php foreach ($itensCarrinho as $item): ?>
+                <?php
+                    $vela     = $item->getVela();
+                    $qtd      = $item->getQuantidade();
+                    $preco    = $vela->getPreco();
+                    $subtotal = $qtd * $preco;
+                    $total   += $subtotal;
+                ?>
+
+                <div class="carrinho-item">
+
+                    <img src="<?= htmlspecialchars($vela->getImagem()) ?>"
+                        class="carrinho-img"
+                        alt="<?= htmlspecialchars($vela->getNome()) ?>">
+
+                    <div class="carrinho-info">
+
+                        <h3 class="subsubtitulo"
+                            style="background-color:transparent;color:#283618;
+                                       padding:6px;border-radius:8px;display:inline-block;">
+                            <?= htmlspecialchars($vela->getNome()) ?>
+                        </h3>
+
+                        <p class="mb-1">Aroma: <?= htmlspecialchars($vela->getAroma()) ?></p>
+                        <p class="mb-1">Preço unitário: R$ <?= number_format($preco, 2, ',', '.') ?></p>
+                        <p class="mb-1">Estoque disponível: <?= $vela->getEstoque() ?></p>
+
+                        <div class="item-quantidade" style="margin-top:8px; display:flex; align-items:center; gap:6px;">
+
+                            <!-- botao diminuir unidades -->
+                            <form method="POST" action="/carrinho/decrescimo">
+                                <input type="hidden" name="id_item" value="<?= $item->getId() ?>">
+                                <button type="submit" class="btn-qtd">-</button>
+                            </form>
+
+                            <span class="valor-qtd" id="qtd-<?= $item->getId() ?>">
+                                <?= $qtd ?>
+                            </span>
+
+                            <!-- botao de aumentar unidades -->
+                            <form method="POST" action="/carrinho/acrescimo">
+                                <input type="hidden" name="id_item" value="<?= $item->getId() ?>">
+                                <button type="submit" class="btn-qtd">+</button>
+                            </form>
+
+                            <!-- botao remover -->
+                            <form method="POST" action="/carrinho/remover" style="margin-left:12px;">
+                                <input type="hidden" name="id_item" value="<?= $item->getId() ?>">
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    Remover
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+
+                    <div class="carrinho-preco">
+                        <p>Total do item:</p>
+                        <h4>R$ <?= number_format($subtotal, 2, ',', '.') ?></h4>
+                    </div>
+
+                </div>
+
+            <?php endforeach; ?>
+
+            <div class="carrinho-resumo">
+                <h3>Total da compra: R$ <?= number_format($total, 2, ',', '.') ?></h3>
+
+                <div style="display:flex; gap:12px; margin-top:12px;">
+
+                    <!-- botao pra finalizar -->
+                    <form method="POST" action="/carrinho/finalizar">
+                        <button type="submit" class="btn btn-success btn-finalizar">
+                            Finalizar Compra
+                        </button>
+                    </form>
+
+                    <!-- botao do zap -->
                     <?php
-                        $vela = $item->getVela();
-                        $subtotal = $item->getQuantidade() * $vela->getPreco();
-                        $total += $subtotal;
+                    $mensagem = rawurlencode("Pedido Care - Total: R$ " . number_format($total, 2, ',', '.'));
+                    $whatsappNumber = '55SEUNUMEROAQUI'; //muda o numero aqui
                     ?>
-                    <div class="carrinho-item">
-                        <img src="<?= htmlspecialchars($vela->getImagem()) ?>" class="carrinho-img" alt="<?= htmlspecialchars($vela->getNome()) ?>">
+                    <a href="https://wa.me/<?= $whatsappNumber ?> ?text=<?= $mensagem ?>"
+                        target="_blank" class="btn btn-success btn-finalizar">
+                        <i class="fa-brands fa-whatsapp"></i> Pedir no WhatsApp
+                    </a>
+                    <a
+                        href="/produto" class="btn btn-success btn-finalizar" style="background-color: #174f99ff"> 
+                        Continuar comprando
+                    </a>
 
-                        <div class="carrinho-info">
-                            <h3 class="subsubtitulo" style="background-color:transparent;color:#283618;padding:6px;border-radius:8px;display:inline-block;">
-                                <?= htmlspecialchars($vela->getNome()) ?>
-                            </h3>
-                            <p class="mb-1">Aroma: <?= htmlspecialchars($vela->getAroma()) ?></p>
-                            <p class="mb-1">Preço unitário: R$ <?= number_format($vela->getPreco(),2,',','.') ?></p>
-                            <p class="mb-1">Estoque disponível: <?= $vela->getEstoque() ?></p>
-
-                            <div class="item-quantidade" style="margin-top:8px;">
-                                <form method="POST" action="/carrinho/decrescimo">
-                                    <input type="hidden" name="id_item" value="<?= $item->getId() ?>">
-                                    <button type="submit" class="btn-qtd">-</button>
-                                </form>
-                                <span class="valor-qtd" id="qtd-<?= $item->getId() ?>"><?= $item->getQuantidade() ?></span>
-                                <form method="POST" action="/carrinho/acrescimo">
-                                    <input type="hidden" name="id_item" value="<?= $item->getId() ?>">
-                                    <button  type="submit" class="btn-qtd">+</button>
-                                </form>
-
-                                <form method="POST" action="/carrinho/remover" style="display:inline-block; margin-left:12px;">
-                                    <input type="hidden" name="id_item" value="<?= $item->getId() ?>">
-                                    <button type="submit" class="btn btn-danger btn-sm">Remover</button>
-                                </form>
-                            </div>
-                        </div>
-
-                        <div class="carrinho-preco">
-                            <p>Total do item:</p>
-                            <h4>R$ <?= number_format($subtotal,2,',','.') ?></h4>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-
-                <div class="carrinho-resumo" style="margin-top:20px;">
-                    <h3>Total: R$ <?= number_format($total,2,',','.') ?></h3>
-
-                    <div style="display:flex; gap:12px; margin-top:12px;">
-                        <form method="POST" action="/carrinho/finalizar" style="display:inline-block;">
-                            <button type="submit" class="btn btn-success btn-finalizar">Finalizar Compra</button>
-                        </form>
-
-                        <!-- Link do api do zap -->
-                        <?php
-                            $mensagem = rawurlencode("Pedido Care - Total: R$ " . number_format($total,2,',','.'));
-                            $whatsappNumber = '55SEUNUMERODDDNÚMERO'; // numero do zap
-                        ?>
-                        <a href="https://wa.me/<?=$whatsappNumber?>?text=<?=$mensagem?>" target="_blank" class="btn btn-primary">Pedir por WhatsApp</a>
-                    </div>
                 </div>
             </div>
 
-        <?php endif; ?>
+        </div>
+
+    <?php endif; ?>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-<style>
-    
-    @media (max-width:900px) {
-        .carrinho-item { flex-direction:column; align-items:flex-start; }
-        .carrinho-preco { width:100%; text-align:left; }
-    }
-    </style>
-
 </body>

@@ -23,15 +23,20 @@ class Venda
     #[ORM\Column(type: "datetime", nullable: false)]
     private \DateTime $criadoEm;
 
-    public function __construct(Usuario $usuario, float $total)
+    #[ORM\Column(type: "string", enumType: VendaStatus::class)]
+    private VendaStatus $status;
+
+    public function __construct(Usuario $usuario, float $total, VendaStatus $status)
     {
         $this->usuario = $usuario;
         $this->total = $total;
         $this->criadoEm = new \DateTime();
+        $this->status = $status;
     }
 
     public function getId(): int { return $this->id; }
     public function getUsuario(): Usuario { return $this->usuario; }
     public function getTotal(): float { return $this->total; }
     public function getCriadoEm(): \DateTime { return $this->criadoEm; }
+    public function getStatus(): VendaStatus { return $this->status; }
 }

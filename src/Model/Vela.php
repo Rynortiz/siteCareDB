@@ -13,10 +13,10 @@ class Vela
     #[ORM\Column(type: "integer")]
     private int $id;
 
-    #[ORM\Column(type: "string", length: 100)]
+    #[ORM\Column(type: "string", length: 120)]
     private string $nome;
 
-    #[ORM\Column(type: "string", length: 50)]
+    #[ORM\Column(type: "string", length: 120)]
     private string $aroma;
 
     #[ORM\Column(type: "decimal", precision: 10, scale: 2)]

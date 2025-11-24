@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Core\Database;
 use App\Model\CarrinhoItem;
+use App\Model\Carrinho;
 use App\Model\Vela;
 use App\Model\Usuario;
 use App\Model\Venda;
 use App\Model\VendaItem;
 use App\Model\VelaStatus;
+use App\Model\VendaStatus;
 
 class CarrinhoController
 {
@@ -24,62 +26,106 @@ class CarrinhoController
     {
         $this->requireLogin();
 
-
         $em = Database::getEntityManager();
         $usuario = $em->find(Usuario::class, $_SESSION['id_usuario']);
 
-        $itensCarrinho = [];
+        // Buscar ou criar carrinho do usuário
+        $carrinho = $em->getRepository(Carrinho::class)
+            ->findOneBy(['usuario' => $usuario]);
 
-        $itens = $em->getRepository(CarrinhoItem::class)->findBy(['usuario' => $usuario]);
+        // Se não houver carrinho, cria
+        if (!$carrinho) {
+            $carrinho = new Carrinho($usuario);
+            $em->persist($carrinho);
+            $em->flush();
+        }
+
+        // Itens do carrinho
+        $itensCarrinho = $carrinho->getItens();
 
         $page = 'carrinho';
         require __DIR__ . '/../View/page.phtml';
     }
 
+
+    public function getOrCreateCarrinho(Usuario $usuario)
+    {
+        $em = Database::getEntityManager();
+        $repo = $em->getRepository(Carrinho::class);
+
+        // verifica se já existe carrinho ativo
+        $carrinho = $repo->findOneBy(['usuario' => $usuario]);
+
+        if ($carrinho) {
+            return $carrinho;
+        }
+
+        // cria novo carrinho
+        $carrinho = new Carrinho($usuario);
+        $em->persist($carrinho);
+        $em->flush();
+
+        return $carrinho;
+    }
+
     public function add()
     {
         $this->requireLogin();
-
-
-        $idVela = (int)($_POST['id_vela'] ?? 0);
-        if (!$idVela) {
-            $_SESSION['erro'] = "Produto inválido.";
-            header("Location: /produto");
-            exit;
-        }
-
         $em = Database::getEntityManager();
-        $vela = $em->find(Vela::class, $idVela);
-
-        // verificação existe, status e estoque
-        if (!$vela || $vela->getStatus()->value !== VelaStatus::DISPONIVEL->value) {
-            $_SESSION['erro'] = "Produto indisponível.";
-            header("Location: /produto");
-            exit;
-        }
-
-        if ($vela->getEstoque() <= 0) {
-            $_SESSION['erro'] = "Produto sem estoque.";
-            header("Location: /produto");
-            exit;
-        }
 
         $usuario = $em->find(Usuario::class, $_SESSION['id_usuario']);
+        $velaId = $_POST['id'] ?? null;
 
-        // busca item do carrinho se existir
-        $repo = $em->getRepository(CarrinhoItem::class);
-        $item = $repo->findOneBy(['usuario' => $usuario, 'vela' => $vela]);
+        if (!$velaId) {
+            $_SESSION['erro'] = "ID inválido.";
+            header("Location: /produto");
+            exit;
+        }
 
-        if (!$item) {
-            // se não existe, cria e adiciona no carrinho
-            $novo = new CarrinhoItem($usuario, $vela, 1);
+        $vela = $em->find(Vela::class, $velaId);
+
+        if (!$vela) {
+            $_SESSION['erro'] = "Vela não encontrada.";
+            header("Location: /produto");
+            exit;
+        }
+
+        // pega ou cria o carrinho
+        $carrinho = $this->getOrCreateCarrinho($usuario);
+
+        // busca item dentro do carrinho
+        $item = $em->getRepository(CarrinhoItem::class)->findOneBy([
+            'carrinho' => $carrinho,
+            'vela' => $vela
+        ]);
+
+        if ($item) {
+            // verifica estoque antes de aumentar
+            if ($item->getQuantidade() + 1 > $vela->getEstoque()) {
+                $_SESSION['erro'] = "Quantidade maior que o estoque disponível.";
+                header("Location: /carrinho");
+                exit;
+            }
+
+            $item->setQuantidade($item->getQuantidade() + 1);
+            $em->flush();
+        } else {
+            // novo item
+            if ($vela->getEstoque() < 1) {
+                $_SESSION['erro'] = "Produto sem estoque.";
+                header("Location: /produto");
+                exit;
+            }
+
+            $novo = new CarrinhoItem($carrinho, $vela, 1);
             $em->persist($novo);
             $em->flush();
         }
 
-        header("Location: " . $_SERVER['HTTP_REFERER']);
-        exit;
+        $_SESSION['msg'] = "Item adicionado ao carrinho.";
+        header("Location: /carrinho");
     }
+
 
     public function acrescentarItem()
     {
@@ -151,11 +197,6 @@ class CarrinhoController
         exit;
     }
 
-
-
-
-    // endpoint AJAX para atualizar quantidade (+/-)
-
     public function remover()
     {
         $this->requireLogin();
@@ -178,7 +219,6 @@ class CarrinhoController
         exit;
     }
 
-    // finalizar: usa transaction do DBAL (Doctrine connection)
     public function finalizar()
     {
         $this->requireLogin();
@@ -187,9 +227,21 @@ class CarrinhoController
         $conn = $em->getConnection();
         $usuario = $em->find(Usuario::class, $_SESSION['id_usuario']);
 
-        $itens = $em->getRepository(CarrinhoItem::class)->findBy(['usuario' => $usuario]);
+        // procura o carrinho
+        $carrinho = $em->getRepository(Carrinho::class)->findOneBy([
+            'usuario' => $usuario
+        ]);
 
-        if (empty($itens)) {
+        if (!$carrinho) {
+            $_SESSION['erro'] = "Carrinho não encontrado.";
+            header("Location: /carrinho");
+            exit;
+        }
+
+        // pega os itens
+        $itens = $carrinho->getItens();
+
+        if ($itens->isEmpty()) {
             $_SESSION['erro'] = "Seu carrinho está vazio.";
             header("Location: /carrinho");
             exit;
@@ -198,11 +250,11 @@ class CarrinhoController
         try {
             $conn->beginTransaction();
 
-            // validações: estoque e status
+            // valida estoque
             foreach ($itens as $item) {
                 $vela = $item->getVela();
 
-                if ($vela->getStatus()->value !== VelaStatus::DISPONIVEL->value) {
+                if ($vela->getStatus() !== VelaStatus::DISPONIVEL) {
                     throw new \Exception("Produto {$vela->getNome()} está indisponível.");
                 }
 
@@ -211,47 +263,60 @@ class CarrinhoController
                 }
             }
 
-            // calcula total
+            // calcula total da venda
             $total = 0.0;
             foreach ($itens as $item) {
                 $total += $item->getQuantidade() * $item->getVela()->getPreco();
             }
 
-            // cria entidade Venda (persist mas não commit ainda)
-            $venda = new Venda($usuario, $total);
+            // criar venda
+            $venda = new Venda($usuario, $total, VendaStatus::PROCESSANDO);
             $em->persist($venda);
-            $em->flush(); // importante para ter id da venda antes de criar itens (mas a transação ainda não está commitada)
+            $em->flush(); // vende_id fica disponível
 
-            // cria venda_itens e atualiza estoque
+            // cria itens da venda e atualiza estoque
             foreach ($itens as $item) {
                 $vela = $item->getVela();
-                $quant = $item->getQuantidade();
-                $precoUnit = $vela->getPreco();
+                $qtd = $item->getQuantidade();
+                $preco = $vela->getPreco();
 
-                $vItem = new VendaItem($venda, $vela, $quant, $precoUnit);
+                $vItem = new VendaItem($venda, $vela, $qtd, $preco);
                 $em->persist($vItem);
+                $conn->executeQuery("CALL processar_venda(?)", [$venda->getId()]);
+                $status = $conn->fetchOne("SELECT status FROM vendas WHERE id = ?", [$venda->getId()]);
 
-                // desconta estoque
-                $vela->setEstoque($vela->getEstoque() - $quant);
-                $em->persist($vela);
 
-                // remove item do carrinho
+
+
+                // atualizar estoque
+                if ($status == "finalizado") {
+                    $vela->setEstoque($vela->getEstoque() - $qtd);
+                    $em->persist($vela);
+                } else {
+                    $conn->rollBack();
+                    $_SESSION['erro'] = "Erro ao finalizar venda: " . $e->getMessage();
+                    header("Location: /carrinho");
+                }
+
+                // remover o item do carrinho
                 $em->remove($item);
             }
 
-            $em->flush();
+            // remover o carrinho vazio
+            $em->remove($carrinho);
 
-            // commit da transação: só aqui a venda aparecerá no banco definitivamente
+
+            $em->flush();
             $conn->commit();
 
-            $_SESSION['msg'] = "Venda finalizada com sucesso!";
+            $_SESSION['msg'] = "Compra finalizada e sendo processada!";
             header("Location: /carrinho");
             exit;
         } catch (\Throwable $e) {
-            // rollback e mensagem de erro
             if ($conn->isTransactionActive()) {
                 $conn->rollBack();
             }
+
             $_SESSION['erro'] = "Erro ao finalizar venda: " . $e->getMessage();
             header("Location: /carrinho");
             exit;

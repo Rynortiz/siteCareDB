@@ -1,7 +1,6 @@
 <?php
 namespace App\Model;
 
-use App\Core\Database;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -13,33 +12,29 @@ class CarrinhoItem
     #[ORM\Column(type:"integer")]
     private int $id;
 
-    #[ORM\ManyToOne(targetEntity:Usuario::class)]
+    #[ORM\ManyToOne(targetEntity: Carrinho::class)]
     #[ORM\JoinColumn(nullable:false)]
-    private Usuario $usuario;
+    private Carrinho $carrinho;
 
-    #[ORM\ManyToOne(targetEntity:Vela::class)]
+    #[ORM\ManyToOne(targetEntity: Vela::class)]
     #[ORM\JoinColumn(nullable:false)]
     private Vela $vela;
 
     #[ORM\Column(type:"integer")]
     private int $quantidade;
 
-    public function __construct(Usuario $usuario, Vela $vela, int $quantidade = 1)
+    public function __construct(Carrinho $carrinho, Vela $vela, int $quantidade = 1)
     {
-        $this->usuario = $usuario;
+        $this->carrinho = $carrinho;
         $this->vela = $vela;
         $this->quantidade = $quantidade;
     }
 
-    public function getId() { return $this->id; }
-    public function getUsuario() { return $this->usuario; }
-    public function getVela() { return $this->vela; }
-    public function getQuantidade() { return $this->quantidade; }
-    public function setQuantidade(int $q) { $this->quantidade = $q; }
+    // GETTERS
+    public function getId(): int { return $this->id; }
+    public function getCarrinho(): Carrinho { return $this->carrinho; }
+    public function getVela(): Vela { return $this->vela; }
 
-    public function save() {
-        $em = Database::getEntityManager();
-        $em->persist($this);
-        $em->flush();
-    }
+    public function getQuantidade(): int { return $this->quantidade; }
+    public function setQuantidade(int $q): void { $this->quantidade = $q; }
 }

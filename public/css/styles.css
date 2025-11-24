@@ -13,7 +13,7 @@ body {
     min-height: 100vh;
 }
 
-.container{
+.container {
 
     min-height: 100vh;
 
@@ -40,14 +40,14 @@ body {
     display: flex;
     justify-content: center;
     flex-direction: row;
-    align-items:start;
+    align-items: start;
 }
 
 .carrinho-topo {
 
     display: flex;
     flex-direction: column;
-    align-items:center;
+    align-items: center;
 
 }
 
@@ -93,6 +93,16 @@ body {
     align-items: center;
     gap: 8px;
     margin-top: 8px;
+}
+
+.carrinho-resumo {
+
+    margin-top: 20px;
+    background-color: #FFFFFF;
+    padding: 10px;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 6px 18px;
 }
 
 .btn-qtd {
@@ -217,7 +227,7 @@ body {
 .botao-carrinho {
     margin-top: 2px;
     font-size: 1.9em;
-    margin-right: 60px;
+    margin-right: 80px;
     padding: 0px;
     color: #606C38;
     cursor: pointer;
@@ -731,6 +741,11 @@ body {
 
 
 @media (min-width: 1000px) {
+
+    .carrinho-preco {
+        width: 100%;
+        text-align: left;
+    }
 
     body {
         background-color: #444;

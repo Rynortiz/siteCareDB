@@ -15,7 +15,7 @@
 
 
                     <form method="POST" action="/carrinho/add">
-                        <input type="hidden" name="id_vela" value="<?= $vela->getId() ?>">
+                        <input type="hidden" name="id" value="<?= $vela->getId() ?>">
 
                         <?php if (in_array($vela->getId(), $itensCarrinho)): ?>
 

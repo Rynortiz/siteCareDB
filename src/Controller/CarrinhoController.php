@@ -294,7 +294,7 @@ class CarrinhoController
                     $em->persist($vela);
                 } else {
                     $conn->rollBack();
-                    $_SESSION['erro'] = "Erro ao finalizar venda: " . $e->getMessage();
+                    $_SESSION['erro'] = "Erro ao finalizar venda ";
                     header("Location: /carrinho");
                 }
 

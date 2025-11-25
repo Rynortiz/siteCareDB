@@ -98,18 +98,7 @@ class CarrinhoController
             'carrinho' => $carrinho,
             'vela' => $vela
         ]);
-
-        if ($item) {
-            // verifica estoque antes de aumentar
-            if ($item->getQuantidade() + 1 > $vela->getEstoque()) {
-                $_SESSION['erro'] = "Quantidade maior que o estoque disponível.";
-                header("Location: /carrinho");
-                exit;
-            }
-
-            $item->setQuantidade($item->getQuantidade() + 1);
-            $em->flush();
-        } else {
+        if (!$item) {
             // novo item
             if ($vela->getEstoque() < 1) {
                 $_SESSION['erro'] = "Produto sem estoque.";

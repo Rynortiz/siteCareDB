@@ -8,6 +8,7 @@ use App\Controller\CadastroController;
 use App\Controller\CarrinhoController;
 use App\Controller\VelaController;
 use App\Controller\AdminVelaController;
+use App\Controller\AdminDashController;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -31,6 +32,7 @@ $routes = [
     '/admin/criar' => [new AdminVelaController, 'criar'],
     '/admin/editar' => [new AdminVelaController, 'editar'],
     '/admin/remover' => [new AdminVelaController, 'remover'],
+    '/dashboard' => [new AdminDashController, 'dashboard'],
     '/carrinho' => [new CarrinhoController, 'listar'],
     '/carrinho/add' => [new CarrinhoController, 'add'],
     '/carrinho/acrescimo' => [new CarrinhoController, 'acrescentarItem'],

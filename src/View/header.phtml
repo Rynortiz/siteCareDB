@@ -49,6 +49,7 @@
 
                         <?php if (!empty($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'ADMIN'): ?>
                             <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="admin">Gerenciar Velas</a>
+                            <a class="dropBtns" onclick="ativarMenu(), trocarIcone()" href="dashboard">Painel Admin</a>
                         <?php endif; ?>
 
                         <a onclick="ativarMenu(), trocarIcone()" class="dropContato" href="logout">Logout</a>

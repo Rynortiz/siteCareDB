@@ -71,12 +71,10 @@ class AdminVelaController
 
             $vela->setStatus(VelaStatus::from($_POST['status'] ?? $vela->getStatus()->value));
             $usuario = $_SESSION['id_usuario'];
-            $em->getConnection()->executeQuery("SET @usuario_id := :uid", ['uid' => $usuario]);
+            $em->getConnection()->executeQuery("SET @usuario_id := :uid", ['uid' => $usuario->getId()]);
             $em->flush();
-            echo "passou pelo if";
         }
         else 
-            echo "Nao passou";
         header("Location: " . $_SERVER['HTTP_REFERER']);
         exit;
     }

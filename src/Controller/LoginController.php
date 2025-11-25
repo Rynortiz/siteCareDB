@@ -28,7 +28,7 @@ class LoginController
             $_SESSION['id_usuario'] = $usuario->getId();
             $_SESSION['nome_usuario'] = $usuario->getNome();
             $_SESSION['tipo_usuario'] = $usuario->getTipo()->name;
-            $em->getConnection()->executeQuery("SET @usuario_id := :uid", ['uid' => $usuario]);
+            $em->getConnection()->executeQuery("SET @usuario_id := :uid", ['uid' => $usuario->getId()]);
 
             header("Location: /home");
             exit;

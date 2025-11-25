@@ -4,6 +4,6 @@ namespace App\Model;
 enum VendaStatus: string
 {
     case PROCESSANDO = 'processando';
-    case FINALIZADA = 'finalizada';
+    case FINALIZADO = 'finalizado';
     case RECUSADA = 'recusada';
 }

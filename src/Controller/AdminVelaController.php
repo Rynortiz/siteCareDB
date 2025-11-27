@@ -40,7 +40,6 @@ class AdminVelaController
         if ($nome && $aroma && $preco && $estoque && $imagem) {
             $vela = new Vela($nome, $aroma, (float)$preco, (int)$estoque, $imagem, VelaStatus::from($status));
             $vela->save();
-
         }
         header("Location: " . $_SERVER['HTTP_REFERER']);
         exit;
@@ -66,16 +65,17 @@ class AdminVelaController
             if ($vela->getImagem() !== $_POST['imagem'] && !empty($_POST['imagem'])) {
 
                 $vela->setImagem($_POST['imagem']);
-
             }
 
             $vela->setStatus(VelaStatus::from($_POST['status'] ?? $vela->getStatus()->value));
-            $usuario = $_SESSION['id_usuario'];
-            $em->getConnection()->executeQuery("SET @usuario_id := :uid", ['uid' => $usuario->getId()]);
+            $usuarioId = $_SESSION['id_usuario'];
+            $em->getConnection()->executeQuery(
+                "SET @usuario_id := :uid",
+                ['uid' => $usuarioId]
+            );
             $em->flush();
         }
-        else 
-        header("Location: " . $_SERVER['HTTP_REFERER']);
+            header("Location: " . $_SERVER['HTTP_REFERER']);
         exit;
     }
 
@@ -90,7 +90,6 @@ class AdminVelaController
                 $em->remove($vela);
                 $em->flush();
             }
-
         }
         header("Location: " . $_SERVER['HTTP_REFERER']);
         exit;

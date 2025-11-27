@@ -29,11 +29,11 @@ class CarrinhoController
         $em = Database::getEntityManager();
         $usuario = $em->find(Usuario::class, $_SESSION['id_usuario']);
 
-        // Buscar ou criar carrinho do usuário
+        // busca o carrinho do
         $carrinho = $em->getRepository(Carrinho::class)
             ->findOneBy(['usuario' => $usuario]);
 
-        // Se não houver carrinho, cria
+        // se não houver carrinho, cria
         if (!$carrinho) {
             $carrinho = new Carrinho($usuario);
             $em->persist($carrinho);
@@ -172,7 +172,7 @@ class CarrinhoController
         $qtdAtual = $item->getQuantidade();
 
         if ($qtdAtual <= 1) {
-            // Remover item quando chegar a 0
+            // remover item quando chega a 0
             $em->remove($item);
             $em->flush();
             header("Location: /carrinho");
